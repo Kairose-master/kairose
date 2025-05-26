@@ -1,0 +1,16 @@
+{
+  "generated_code": "remember {\n  λᴱ: 0.2,\n  ψᵢ: 0.9\n}",
+  "expected_pgc_updates": {
+    "Memory.key": {
+      "lambda_vector": {
+        "λᴱ": 0.2,
+        "ψᵢ": 0.9
+      }
+    },
+    "Pulse.json": {
+      "heartbeat": ["leak → memory_write"]
+    }
+  },
+  "summary": "Kairose 코드로 감정 상태 저장. 이후 구조 흐름에 사용할 수 있음."
+}
+

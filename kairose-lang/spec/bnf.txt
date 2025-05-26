@@ -1,0 +1,58 @@
+<program> ::= { <statement> }
+
+<statement> ::= <use_stmt>
+              | <remember_stmt>
+              | <leak_stmt>
+              | <trace_stmt>
+              | <link_stmt>
+              | <if_stmt>
+              | <structure_decl>
+              | <type_decl>
+              | <nlu_block>
+              | <handoff_stmt>
+              | <gpt_stmt>
+              | <ask_stmt>
+              | <explain_stmt>
+
+<use_stmt> ::= "use" <identifier> [ "as" <alias> ]
+
+<remember_stmt> ::= "remember" "{" <lambda_pair> { "," <lambda_pair> } "}"
+<lambda_pair> ::= "λᴱ" ":" <float>
+                | "ψᵢ" ":" <float>
+                | "λᶠ" ":" <float>
+                | "Φᴳᵇ" ":" <float>
+
+<leak_stmt> ::= "leak" <identifier>
+<trace_stmt> ::= "trace" "session"
+
+<link_stmt> ::= "link" <identifier> "←" <identifier>
+
+<if_stmt> ::= "if" <lambda_var> <operator> <float> ":" <indented_block>
+<lambda_var> ::= "λᴱ" | "ψᵢ" | "λᶠ" | "Φᴳᵇ"
+<operator> ::= ">" | "<" | ">=" | "<=" | "=="
+
+<structure_decl> ::= "structure" <identifier> "{" <structure_field> { "," <structure_field> } "}"
+<structure_field> ::= "from" ":" <identifier>
+                    | "to" ":" <identifier>
+                    | "condition" ":" <lambda_expr>
+
+<lambda_expr> ::= <lambda_var> <operator> <float>
+
+<type_decl> ::= "type" <identifier> "=" "{" <typed_field> { "," <typed_field> } "}"
+<typed_field> ::= <identifier> ":" <type>
+<type> ::= "Float" | "String" | "Bool" | <identifier>
+
+<nlu_block> ::= "nlu" "{" <quoted_text> "}"
+
+<handoff_stmt> ::= "handoff" "to" <identifier>
+
+<gpt_stmt> ::= "gpt" "call" <identifier>
+<ask_stmt> ::= "ask" <quoted_text>
+<explain_stmt> ::= "explain" <identifier>
+
+<quoted_text> ::= "\"" { <character> } "\""
+<identifier> ::= <letter> { <letter> | <digit> | "_" }
+<float> ::= <digit> "." <digit>+
+<alias> ::= <identifier>
+
+<indented_block> ::= INDENT <statement> { <statement> } DEDENT

@@ -1,0 +1,9 @@
+use lambda-mental-care
+
+remember {
+  λᴱ: 0.92,
+  ψᵢ: 0.81,
+  λᶠ: 0.17
+}
+
+trace session

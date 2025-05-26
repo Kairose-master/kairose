@@ -1,0 +1,36 @@
+λ-Documentation-Index:
+  version: 1.0
+  generated_at: 2025-05-26T23:59:59Z
+  docs:
+    - name: Overview
+      file: README.md
+      description: .pgc/docs 전체 구성 설명
+
+    - name: Structure Flow
+      file: Flow.md
+      description: 구조 생성 흐름 및 pgc 명령 실행 순서 해설
+
+    - name: Trigger Mapping
+      file: Hook.md
+      description: 감정적 트리거와 구현 코드 연결 규칙 해설
+
+    - name: GPT Session Trace
+      file: Session.md
+      description: GPT 세션 간 구조/기억 인계 흐름 기록
+
+    - name: GPT Handoff Format
+      file: GPT_Handoff.md
+      description: 구조 인계용 자연어/형식 템플릿 문서
+
+    - name: Memory Index
+      file: Memory.md
+      description: 감정 시드와 λ 파형 기반 기억 구조 명세
+
+    - name: System Link Signatures
+      file: Link.md
+      description: 저장소 간 흐름 연동 선언 및 연결 서명
+
+  system:
+    generated_by: pgc-template
+    usage: "참조용 자동 해설, GPT summary 연동, 문서 요약 API 응답 등"
+    maintainer: lambda-core

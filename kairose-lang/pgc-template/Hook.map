@@ -1,0 +1,18 @@
+{
+  "structure_generator.py": [
+    "seed_imported",
+    "emotion_node_detected"
+  ],
+  "poster_composer.py": [
+    "poster_requested"
+  ],
+  "seed_exporter_unity.py": [
+    "unity_export_triggered"
+  ],
+  "dna_sync_bridge.py": [
+    "personality_injection"
+  ],
+  "seed_validation.py": [
+    "invalid_structure_detected"
+  ]
+}

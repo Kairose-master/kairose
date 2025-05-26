@@ -1,0 +1,12 @@
+{
+  "natural_language": "지금 감정 상태를 기억해줘",
+  "expected_intent": {
+    "intent": "remember",
+    "target": null,
+    "emotion": {
+      "λᴱ": 0.2,
+      "ψᵢ": 0.9
+    }
+  },
+  "note": "피로와 불안의 감정 상태를 기억하는 명령. λᴱ는 낮고 ψᵢ는 높음."
+}
