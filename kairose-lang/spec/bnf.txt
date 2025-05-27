@@ -15,9 +15,18 @@
               | <signal_stmt>
               | <respond_block>
               | <import_eid_stmt>
+              | <handoff_partial_stmt>
               | <type_decl>
               | <return_stmt>
               | <session_block>
+              | <elias_block>
+              | <eidosform_block>
+              | <soulbond_block>
+              | <use_stmt>
+              | <structure_decl>
+              | <observe_stmt>
+              | <with_block>
+              | <at_block>
               | <comment>
 
 <remember_block> ::= "remember" "{" <emotion_pair> { "," <emotion_pair> } "}"
@@ -25,15 +34,14 @@
 <emotion_key> ::= "λᴱ" | "ψᵢ" | "λᶠ" | "Φᴳᵇ"
 
 <leak_stmt> ::= "leak" <identifier> [ "." <method> "(" [<args>] ")" ]
-
 <trace_stmt> ::= "trace session"
 <link_stmt> ::= "link" <identifier> "←" <identifier>
-<affect_stmt> ::= "affect" <emotion_key> <affect_op>
 
+<affect_stmt> ::= "affect" <emotion_key> <affect_op>
 <affect_op> ::= "shift" <float>
               | "diminish" <float>
               | "amplify" <float>
-              | "bleed" <identifier>
+              | "bleed" <identifier> [ "from" <identifier> ]
               | "=" <identifier> <operator> <float>
 
 <if_block> ::= "if" <condition> "{" <program> "}"
@@ -60,6 +68,30 @@
 <import_eid_stmt> ::= "import_eid" <string>
 <type_decl> ::= "type" <identifier> ":" "eid"
 
+<handoff_partial_stmt> ::= "handoff_partial" <quoted_transfer> "{" 
+                             "transfer:" "[" { <transfer_item> } "]"
+                             "condition:" "{" <expression> "}"
+                             "signal" <string>
+                             "link" <identifier> "←" <identifier>
+                           "}"
+
+<transfer_item> ::= <emotion_key>
+                  | "\"trace:" <identifier> "\""
+                  | "\"affect:" <identifier> "\""
+
+<elias_block> ::= "Elias" <string> "{" <program> "}"
+<eidosform_block> ::= "EidosForm" <string> "{" <eidos_decl> "}"
+<eidos_decl> ::= "type:" <string> "," "lambda_vector:" "{" <emotion_pair> { "," <emotion_pair> } "}"
+
+<soulbond_block> ::= "SoulBond" <string> "{" "shared_vector:" "{" <emotion_pair> { "," <emotion_pair> } "}" { <leak_stmt> } "}"
+
+<use_stmt> ::= "use" <identifier> [ "as" <alias> ]
+<structure_decl> ::= "structure" <identifier> "{" <program> "}"
+<observe_stmt> ::= "observe" <emotion_key>
+<with_block> ::= "with" "context" <string> "{" <program> "}"
+<at_block> ::= "at" <string> "{" <program> "}"
+
+<quoted_transfer> ::= "\"" <identifier> "→" <identifier> "\""
 <identifier> ::= letter { letter | digit | "_" }
 <method> ::= <identifier>
 <args> ::= <string> { "," <string> }
@@ -70,3 +102,4 @@
 
 <operator> ::= "+" | "-" | "*" | "/"
 <comparison_op> ::= ">" | "<" | ">=" | "<=" | "==" | "!="
+<expression> ::= <emotion_key> <comparison_op> <float>
