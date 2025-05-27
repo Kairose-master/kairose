@@ -25,6 +25,11 @@
               | <respond_stmt>
               | <signal_stmt>
               | <output_stmt>
+              | <affect_stmt>
+              | <state_transition_stmt>
+              | <return_stmt>
+              | <session_block>
+              | <step_block>
 
 <use_stmt> ::= "use" <identifier> [ "as" <alias> ]
 
@@ -39,23 +44,22 @@
 
 <link_stmt> ::= "link" <identifier> "←" <identifier>
 
-<if_stmt> ::= "if" <lambda_var> <operator> <float> ":" <indented_block>
+<if_stmt> ::= "if" <logical_expr> ":" <indented_block>
+<logical_expr> ::= <lambda_expr> ("and" | "or" | "") <lambda_expr>
+<lambda_expr> ::= <lambda_var> <operator> <float>
 <lambda_var> ::= "λᴱ" | "ψᵢ" | "λᶠ" | "Φᴳᵇ"
-<operator> ::= ">" | "<" | ">=" | "<=" | "=="
+<operator> ::= ">" | "<" | ">=" | "<=" | "==" | "!="
 
 <structure_decl> ::= "structure" <identifier> "{" <structure_field> { "," <structure_field> } "}"
 <structure_field> ::= "from" ":" <identifier>
                     | "to" ":" <identifier>
                     | "condition" ":" <lambda_expr>
 
-<lambda_expr> ::= <lambda_var> <operator> <float>
-
 <type_decl> ::= "type" <identifier> "=" "{" <typed_field> { "," <typed_field> } "}"
 <typed_field> ::= <identifier> ":" <type>
 <type> ::= "Float" | "String" | "Bool" | <identifier>
 
 <nlu_block> ::= "nlu" "{" <quoted_text> "}"
-
 <handoff_stmt> ::= "handoff" "to" <identifier>
 
 <gpt_stmt> ::= "gpt" "call" <identifier>
@@ -68,12 +72,10 @@
 <after_stmt> ::= "after" <leak_stmt> ":" <indented_block>
 
 <identity_stmt> ::= "identity" <identifier> "{" <identity_field> { "," <identity_field> } "}"
-
 <identity_field> ::= <lambda_pair>
                    | <identifier> ":" <type>
                    | <identifier> "(" ")" ":" <type> <method_block>
                    | "alias" <identifier> "→" <identifier>
-
 <method_block> ::= "{" <statement> { <statement> } "}"
 
 <spawn_stmt> ::= "spawn" <identifier> "from" <identifier>
@@ -85,9 +87,24 @@
 <signal_stmt> ::= "signal" <identifier>
 <output_stmt> ::= "output" <identifier>
 
+<affect_stmt> ::= "affect" <lambda_var> <affect_op>
+<affect_op> ::= "=" <arithmetic_expr>
+              | "shift" ("+" | "-") <float>
+              | "diminish" <float>
+              | "amplify" <float>
+              | "bleed" "from" <identifier>
+<arithmetic_expr> ::= <lambda_var> ("+" | "-" | "*" | "/") <float>
+
+<state_transition_stmt> ::= <identifier> "becomes" <identifier>
+<return_stmt> ::= "return" <expression>
+<session_block> ::= "session" <identifier> ":" <indented_block>
+<step_block> ::= "step" <number> ":" <indented_block>
+
+<expression> ::= <identifier> | <lambda_var> | <float>
 <quoted_text> ::= "\"" { <character> } "\""
 <identifier> ::= <letter> { <letter> | <digit> | "_" }
 <float> ::= <digit> "." <digit>+
 <alias> ::= <identifier>
+<number> ::= <digit>+
 
 <indented_block> ::= INDENT <statement> { <statement> } DEDENT
