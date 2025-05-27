@@ -1,9 +1,7 @@
 # pgc_diff_runner.py
-# .kairo ↔ .pgc 실행 상태 차이 분석기
+# Kairose 실행 상태 ↔ 선언 상태 차이 비교기 (v1.2.1 대응)
 
 import json
-from kairose_linter_utils import extract_remember_block
-from runtime.semantic_layer import to_kairose_code
 import re
 import os
 
@@ -21,12 +19,23 @@ def load_kairo_file(path):
     with open(path, "r") as f:
         return f.read()
 
+def extract_all_leaks(text):
+    # 모든 leak 선언 탐색 (블록 내부 포함)
+    return re.findall(r"leak\s+(\w+)", text)
+
+def extract_declared_emotion(text):
+    match = re.search(r"remember\s*{([^}]+)}", text)
+    if not match:
+        return {}
+    pairs = match.group(1).split(",")
+    return {k.strip(): float(v.strip()) for k, v in (p.split(":") for p in pairs)}
+
 def generate_diff_report(kairo_text, pulse, memory, trace):
-    declared_leaks = re.findall(r"leak (\w+)", kairo_text)
+    declared_leaks = extract_all_leaks(kairo_text)
     pulse_leaks = [line.split("→")[1].strip() for line in pulse["λ-Pulse"]["heartbeat"] if "leak" in line]
     missing_leaks = [l for l in declared_leaks if l not in pulse_leaks]
 
-    declared_emotion = extract_remember_block(kairo_text)
+    declared_emotion = extract_declared_emotion(kairo_text)
     memory_vector = memory.get("lambda_vector", {})
     emotion_mismatch = {
         k: f"declared: {v}, actual: {memory_vector.get(k)}"
