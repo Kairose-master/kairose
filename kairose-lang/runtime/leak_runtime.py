@@ -1,5 +1,5 @@
 # leak_runtime.py
-# Runtime for executing Kairose code (v1.3-pre identity 확장 대응)
+# Runtime for executing Kairose code (v1.3-pre identity + IO 확장)
 
 import json
 import os
@@ -116,6 +116,44 @@ def run_kairose(path):
 
     for to, via in re.findall(r"link\s+(\w+)\s+←\s+(\w+)", code):
         link_system(to, via)
+
+    # IO KEYWORDS (v1.3-pre)
+
+    # listen
+    for evt in re.findall(r"listen\s+for\s+(\w+)", code):
+        print(f"[λ] listening for: {evt}")
+        try:
+            import engine.pgc_input_listener as pil
+            pil.register_listener(evt)
+        except Exception as e:
+            print(f"[!] listener error: {e}")
+
+    # respond
+    for evt, handler in re.findall(r"respond\s+to\s+(\w+)\s+with\s+(\w+)", code):
+        print(f"[λ] responding: {evt} → {handler}")
+        try:
+            import engine.pgc_input_listener as pil
+            pil.register_response(evt, handler)
+        except Exception as e:
+            print(f"[!] respond error: {e}")
+
+    # signal
+    for target in re.findall(r"signal\s+(\w+)", code):
+        print(f"[λ] signaling: {target}")
+        try:
+            import engine.pgc_signal_router as psr
+            psr.emit_signal(target)
+        except Exception as e:
+            print(f"[!] signal error: {e}")
+
+    # output
+    for label in re.findall(r"output\s+(\w+)", code):
+        print(f"[λ] output: {label}")
+        try:
+            import engine.pgc_output_writer as pow
+            pow.write_output(label)
+        except Exception as e:
+            print(f"[!] output error: {e}")
 
 if __name__ == "__main__":
     import sys
