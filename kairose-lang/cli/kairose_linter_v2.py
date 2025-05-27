@@ -1,13 +1,21 @@
-from semantic_layer import IntentBlock
+# kairose_linter_v2.py
+# Kairose 문법 검사기 — v1.3-pre identity 확장 대응
+
 from identity_translator import gpt_guess_keyword
 import re
 
 def detect_ambiguous_keywords(lines):
-    known = {"use", "remember", "leak", "trace", "link", "if", "then",
-             "until", "observe", "affect", "structure", "type", "match",
-             "switch", "flow", "route", "signal", "respond", "listen",
-             "handoff", "ask", "gpt", "explain", "as", "from", "import",
-             "with", "output", "map", "λᴱ", "ψᵢ", "λᶠ", "Φᴳᵇ"}
+    known = {
+        "use", "remember", "leak", "trace", "link", "if", "then",
+        "until", "observe", "affect", "structure", "type", "match",
+        "switch", "flow", "route", "signal", "respond", "listen",
+        "handoff", "ask", "gpt", "explain", "as", "from", "import",
+        "with", "output", "map", "λᴱ", "ψᵢ", "λᶠ", "Φᴳᵇ",
+        # v1.2.1 확장
+        "cycle", "fallback", "defer", "after",
+        # v1.3-pre 확장
+        "identity", "spawn", "merge", "recover"
+    }
 
     suggestions = []
     for line in lines:
@@ -25,19 +33,8 @@ def interactive_repair(line, keyword):
     confirm = input(f"→ 이 키워드를 '{meaning}'으로 처리할까요? (y/n): ")
     return meaning if confirm.lower() == 'y' else None
 
-def gpt_guess_keyword(keyword, context=""):
-    # 실제로는 GPT API를 써야 함
-    # 예시용 하드코딩 추론
-    if "save" in keyword:
-        return "remember"
-    elif "send" in keyword or "emit" in keyword:
-        return "signal"
-    elif "connect" in keyword:
-        return "link"
-    return "leak"
-
 def run_linter(path):
-    with open(path, "r") as f:
+    with open(path, "r", encoding="utf-8") as f:
         lines = f.readlines()
 
     ambiguous = detect_ambiguous_keywords(lines)
@@ -59,4 +56,3 @@ if __name__ == "__main__":
         print("Usage: python kairose_linter_v2.py file.kairo")
     else:
         run_linter(sys.argv[1])
-
