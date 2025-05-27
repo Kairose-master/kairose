@@ -1,5 +1,5 @@
 # leak_runtime.py
-# Kairose v1.6 FULL — identity, affect, method(args), return, flow, literals, IO
+# Runtime for executing Kairose code — v1.6-final ('.kai' compatible)
 
 import json
 import os
@@ -16,11 +16,14 @@ IDENTITY_CLASSES = {}
 return_context = None
 method_context = {}
 
-
 def load_kairose_code(path):
+    if not (path.endswith(".kai") or path.endswith(".kairo")):
+        raise ValueError("Unsupported file type. Use .kai or .kairo")
     with open(path, "r", encoding="utf-8") as f:
         return f.read()
 
+# (이하 기존 코드 유지)
+# 나머지 기능은 이전 v1.6-full 실행기 구조를 따름
 
 def write_memory(lambda_vector):
     os.makedirs(".pgc", exist_ok=True)
