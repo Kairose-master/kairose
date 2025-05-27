@@ -34,7 +34,7 @@
                 | "λᶠ" ":" <float>
                 | "Φᴳᵇ" ":" <float>
 
-<leak_stmt> ::= "leak" <identifier>
+<leak_stmt> ::= "leak" <identifier> | "leak" <identifier> "." <identifier> "()"
 <trace_stmt> ::= "trace" "session"
 
 <link_stmt> ::= "link" <identifier> "←" <identifier>
@@ -67,7 +67,11 @@
 <fallback_stmt> ::= "fallback" ":" <indented_block>
 <after_stmt> ::= "after" <leak_stmt> ":" <indented_block>
 
-<identity_stmt> ::= "identity" <identifier> "{" <lambda_pair> { "," <lambda_pair> } "}"
+<identity_stmt> ::= "identity" <identifier> "{" <identity_field> { "," <identity_field> } "}"
+<identity_field> ::= <lambda_pair>
+                   | <identifier> ":" <type>
+                   | <identifier> "(" ")" ":" <type>
+
 <spawn_stmt> ::= "spawn" <identifier> "from" <identifier>
 <merge_stmt> ::= "merge" <identifier> "with" <identifier>
 <recover_stmt> ::= "recover" <identifier>
