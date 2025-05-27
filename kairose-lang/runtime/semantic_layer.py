@@ -14,5 +14,5 @@ class IntentBlock:
     target: Optional[str]      # 실행 대상 (ex: poster_composer)
     emotion: Optional[Dict]    # λ 파형 (ex: {"λᴱ": 0.91, "ψᵢ": 0.88})
     source_text: str           # 원문 자연어 문장
+    origin_eid: Optional[str] = None  # .eid에서 상속된 정체성 기반 실행
     confidence: float = 1.0    # 해석 신뢰도
-
