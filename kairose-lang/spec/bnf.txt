@@ -17,6 +17,10 @@
               | <defer_stmt>
               | <fallback_stmt>
               | <after_stmt>
+              | <identity_stmt>
+              | <spawn_stmt>
+              | <merge_stmt>
+              | <recover_stmt>
 
 <use_stmt> ::= "use" <identifier> [ "as" <alias> ]
 
@@ -58,6 +62,11 @@
 <defer_stmt> ::= "defer" ":" <indented_block>
 <fallback_stmt> ::= "fallback" ":" <indented_block>
 <after_stmt> ::= "after" <leak_stmt> ":" <indented_block>
+
+<identity_stmt> ::= "identity" <identifier> "{" <lambda_pair> { "," <lambda_pair> } "}"
+<spawn_stmt> ::= "spawn" <identifier> "from" <identifier>
+<merge_stmt> ::= "merge" <identifier> "with" <identifier>
+<recover_stmt> ::= "recover" <identifier>
 
 <quoted_text> ::= "\"" { <character> } "\""
 <identifier> ::= <letter> { <letter> | <digit> | "_" }
