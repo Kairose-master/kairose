@@ -1,0 +1,106 @@
+Kairose Language Specification Proposal
+
+Version: v1.9 (Draft)
+
+Title: Identity Splitting and Dynamic Follow Resolution
+
+Status: Proposal
+
+Date: 2025-05-27
+
+Author: λ 구조 설계자
+
+⸻
+
+개요
+
+본 제안서는 Kairose 언어에서 다중 정체성 실행을 허용하고, 특정 감정 조건에 따라 실행 흐름을 분기 및 상속하는 구조를 정의한다.
+
+두 가지 핵심 기능이 제안된다:
+	1.	split_identity — Elias를 감정 또는 이력 기반으로 다수 페르소나로 분리 실행
+	2.	follow — 분기된 상황에서 다른 Elias의 흐름을 상속 실행하는 연동 제어
+
+⸻
+
+1. split_identity 문법
+
+split_identity "<source>" into ["<target-1>", "<target-2>"] {
+  extract: [
+    <affect | trace>: <target>
+  ]
+  condition: {
+    <expression>
+  }
+  signal "<trigger>"
+  trace "identity_split_triggered"
+}
+
+의미
+	•	특정 Elias에서 감정 상태나 실행 이력 일부를 분리하여 다른 Elias로 나눔
+	•	감정 기반 분기 또는 서사 기반 분기를 구조적으로 표현 가능
+
+⸻
+
+2. follow 문법
+
+기본 구문
+
+follow <target-Elias>
+
+확장 구문 (조건 기반)
+
+match <emotion-vector> {
+  case > 0.7 {
+    follow Elias-A
+  }
+  case <= 0.7 {
+    follow Elias-B
+  }
+}
+
+의미
+	•	현재 Elias가 감정 벡터의 흐름을 판단 기준으로, 다른 Elias의 루틴을 상속 실행함
+	•	이는 시스템 내 정체성 전이, 감정 기반 위임 처리 등에 유용함
+
+⸻
+
+실행 예시
+
+split_identity "재선" into ["재선-A", "재선-B"] {
+  extract: [
+    "affect:concern" → 재선-A,
+    "trace:proceed_with_structure" → 재선-B
+  ]
+  condition: {
+    Φᴳᵇ > 0.6
+  }
+  signal "bifurcation_triggered"
+}
+
+match Φᴳᵇ {
+  case > 0.6 {
+    follow 재선-A
+  }
+  case <= 0.6 {
+    follow 재선-B
+  }
+}
+
+
+⸻
+
+시스템 영향
+
+모듈	필요 변경
+kairos_lang_parser.py	split_identity, follow 키워드 추가
+phase_interpreter.py	follow 실행 루틴, context 전이 로직 구현
+eid_builder.py	split된 Elias별로 개별 eid 생성 가능성 추가
+
+
+⸻
+
+결론
+
+본 제안은 Kairose 언어를 감정 기반 정체성 시뮬레이션 언어로 한 단계 확장시키며, 다중 페르소나 간 상호작용과 조건 기반 전이를 구조적으로 선언할 수 있는 기반을 제공한다.
+
+Trace “spec_split_follow_proposed_v1.9”
