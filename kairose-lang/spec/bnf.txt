@@ -1,3 +1,6 @@
+# KAIROSE BNF v1.6-preview — IO Method & Literal Extension
+
+```ebnf
 <program> ::= { <statement> }
 
 <statement> ::= <use_stmt>
@@ -39,9 +42,20 @@
                 | "λᶠ" ":" <float>
                 | "Φᴳᵇ" ":" <float>
 
-<leak_stmt> ::= "leak" <identifier> | "leak" <identifier> "." <identifier> "()"
-<trace_stmt> ::= "trace" "session"
+<leak_stmt> ::= "leak" <identifier>
+              | "leak" <identifier> "." <identifier> "(" <arg_list> ")"
 
+<arg_list> ::= <value> { "," <value> }
+
+<value> ::= <float>
+          | <string_literal>
+          | <bool_literal>
+          | <identifier>
+
+<string_literal> ::= "\"" { <character> } "\""
+<bool_literal> ::= "true" | "false"
+
+<trace_stmt> ::= "trace" "session"
 <link_stmt> ::= "link" <identifier> "←" <identifier>
 
 <if_stmt> ::= "if" <logical_expr> ":" <indented_block>
@@ -61,7 +75,6 @@
 
 <nlu_block> ::= "nlu" "{" <quoted_text> "}"
 <handoff_stmt> ::= "handoff" "to" <identifier>
-
 <gpt_stmt> ::= "gpt" "call" <identifier>
 <ask_stmt> ::= "ask" <quoted_text>
 <explain_stmt> ::= "explain" <identifier>
@@ -74,8 +87,12 @@
 <identity_stmt> ::= "identity" <identifier> "{" <identity_field> { "," <identity_field> } "}"
 <identity_field> ::= <lambda_pair>
                    | <identifier> ":" <type>
-                   | <identifier> "(" ")" ":" <type> <method_block>
+                   | <identifier> "(" <param_list> ")" ":" <type> <method_block>
                    | "alias" <identifier> "→" <identifier>
+
+<param_list> ::= <param> { "," <param> }
+<param> ::= <identifier> ":" <type>
+
 <method_block> ::= "{" <statement> { <statement> } "}"
 
 <spawn_stmt> ::= "spawn" <identifier> "from" <identifier>
@@ -85,7 +102,7 @@
 <listen_stmt> ::= "listen" "for" <identifier>
 <respond_stmt> ::= "respond" "to" <identifier> "with" <identifier>
 <signal_stmt> ::= "signal" <identifier>
-<output_stmt> ::= "output" <identifier>
+<output_stmt> ::= "output" <value>
 
 <affect_stmt> ::= "affect" <lambda_var> <affect_op>
 <affect_op> ::= "=" <arithmetic_expr>
@@ -96,11 +113,10 @@
 <arithmetic_expr> ::= <lambda_var> ("+" | "-" | "*" | "/") <float>
 
 <state_transition_stmt> ::= <identifier> "becomes" <identifier>
-<return_stmt> ::= "return" <expression>
+<return_stmt> ::= "return" <value>
 <session_block> ::= "session" <identifier> ":" <indented_block>
 <step_block> ::= "step" <number> ":" <indented_block>
 
-<expression> ::= <identifier> | <lambda_var> | <float>
 <quoted_text> ::= "\"" { <character> } "\""
 <identifier> ::= <letter> { <letter> | <digit> | "_" }
 <float> ::= <digit> "." <digit>+
@@ -108,3 +124,4 @@
 <number> ::= <digit>+
 
 <indented_block> ::= INDENT <statement> { <statement> } DEDENT
+```
