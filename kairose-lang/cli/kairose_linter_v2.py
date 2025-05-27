@@ -1,32 +1,35 @@
 # kairose_linter_v2.py
-# Kairose 문법 검사기 — v1.3-class identity 확장 대응
+# Kairose 문법 검사기 — v1.4-pre-poetic 대응
 
 from identity_translator import gpt_guess_keyword
 import re
 
 def detect_ambiguous_keywords(lines):
     known = {
-        # base keywords
+        # 핵심 키워드
         "use", "remember", "leak", "trace", "link", "if", "then", "until",
         "observe", "affect", "structure", "type", "match", "switch", "flow",
         "route", "signal", "respond", "listen", "handoff", "ask", "gpt",
         "explain", "as", "from", "import", "with", "output", "map",
         "λᴱ", "ψᵢ", "λᶠ", "Φᴳᵇ",
-        # v1.2.1 / 1.3-pre extensions
+        # 흐름 제어 확장
         "cycle", "fallback", "defer", "after",
-        "identity", "spawn", "merge", "recover"
+        # 정체성 클래스 확장
+        "identity", "spawn", "merge", "recover", "alias"
     }
 
     suggestions = []
     for line in lines:
         stripped = line.strip()
 
-        # method declarations inside identity
+        # 메서드 선언 허용
         if re.match(r"^\w+\(\):\s*\w+", stripped):
-            continue  # valid method syntax
-
-        # leak method calls
+            continue
+        # 메서드 호출 허용
         if re.match(r"^leak\s+\w+\.\w+\(\)", stripped):
+            continue
+        # alias 구문 허용
+        if re.match(r"^alias\s+\w+\s+→\s+\w+", stripped):
             continue
 
         words = re.findall(r"\b[a-zA-Z_]+\b", line)
