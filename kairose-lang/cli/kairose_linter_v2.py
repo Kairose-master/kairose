@@ -1,11 +1,12 @@
 # kairose_linter_v2.py
-# Kairose 문법 검사기 — v1.3-pre identity 확장 대응
+# Kairose 문법 검사기 — v1.3-pre identity + IO 확장 대응
 
 from identity_translator import gpt_guess_keyword
 import re
 
 def detect_ambiguous_keywords(lines):
     known = {
+        # v1.0-v1.2
         "use", "remember", "leak", "trace", "link", "if", "then",
         "until", "observe", "affect", "structure", "type", "match",
         "switch", "flow", "route", "signal", "respond", "listen",
@@ -13,8 +14,10 @@ def detect_ambiguous_keywords(lines):
         "with", "output", "map", "λᴱ", "ψᵢ", "λᶠ", "Φᴳᵇ",
         # v1.2.1 확장
         "cycle", "fallback", "defer", "after",
-        # v1.3-pre 확장
-        "identity", "spawn", "merge", "recover"
+        # v1.3-pre: Identity 확장
+        "identity", "spawn", "merge", "recover",
+        # v1.3-pre: IO 실구현 키워드
+        "listen", "respond", "signal", "output"
     }
 
     suggestions = []
@@ -29,7 +32,7 @@ def interactive_repair(line, keyword):
     print(f"\n[?] 알 수 없는 키워드 발견: '{keyword}'")
     print(f"    원문: {line}")
     meaning = gpt_guess_keyword(keyword, context=line)
-    print(f"🧠 GPT 추론: '{keyword}'은 '{meaning}'로 해석될 수 있습니다.")
+    print(f"🧠 GPT 추론: '{keyword}'은 '{meaning}'으로 해석될 수 있습니다.")
     confirm = input(f"→ 이 키워드를 '{meaning}'으로 처리할까요? (y/n): ")
     return meaning if confirm.lower() == 'y' else None
 
