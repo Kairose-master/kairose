@@ -1,30 +1,37 @@
 # kairose_linter_v2.py
-# Kairose 문법 검사기 — v1.3-pre identity + IO 확장 대응
+# Kairose 문법 검사기 — v1.3-class identity 확장 대응
 
 from identity_translator import gpt_guess_keyword
 import re
 
 def detect_ambiguous_keywords(lines):
     known = {
-        # v1.0-v1.2
-        "use", "remember", "leak", "trace", "link", "if", "then",
-        "until", "observe", "affect", "structure", "type", "match",
-        "switch", "flow", "route", "signal", "respond", "listen",
-        "handoff", "ask", "gpt", "explain", "as", "from", "import",
-        "with", "output", "map", "λᴱ", "ψᵢ", "λᶠ", "Φᴳᵇ",
-        # v1.2.1 확장
+        # base keywords
+        "use", "remember", "leak", "trace", "link", "if", "then", "until",
+        "observe", "affect", "structure", "type", "match", "switch", "flow",
+        "route", "signal", "respond", "listen", "handoff", "ask", "gpt",
+        "explain", "as", "from", "import", "with", "output", "map",
+        "λᴱ", "ψᵢ", "λᶠ", "Φᴳᵇ",
+        # v1.2.1 / 1.3-pre extensions
         "cycle", "fallback", "defer", "after",
-        # v1.3-pre: Identity 확장
-        "identity", "spawn", "merge", "recover",
-        # v1.3-pre: IO 실구현 키워드
-        "listen", "respond", "signal", "output"
+        "identity", "spawn", "merge", "recover"
     }
 
     suggestions = []
     for line in lines:
+        stripped = line.strip()
+
+        # method declarations inside identity
+        if re.match(r"^\w+\(\):\s*\w+", stripped):
+            continue  # valid method syntax
+
+        # leak method calls
+        if re.match(r"^leak\s+\w+\.\w+\(\)", stripped):
+            continue
+
         words = re.findall(r"\b[a-zA-Z_]+\b", line)
         for w in words:
-            if w not in known and line.strip().startswith(w):
+            if w not in known and stripped.startswith(w):
                 suggestions.append((line.strip(), w))
     return suggestions
 
