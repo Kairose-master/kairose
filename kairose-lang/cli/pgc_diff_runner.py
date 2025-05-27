@@ -1,5 +1,5 @@
 # pgc_diff_runner.py
-# Kairose 실행 상태 ↔ 선언 상태 차이 분석기 (v1.3-pre Identity 확장 포함)
+# Kairose 실행 상태 ↔ 선언 상태 차이 분석기 (v1.3-class 확장 포함)
 
 import json
 import re
@@ -33,11 +33,24 @@ def extract_declared_emotion(text):
         result.update(extract_lambda_block(match.group(1)))
     identity_blocks = extract_identities(text)
     for _, block in identity_blocks:
-        result.update(extract_lambda_block(block))
+        result.update({k.strip(): float(v.strip()) for k, v in [line.strip().split(":") for line in block.split(",") if re.match(r"(λᴱ|ψᵢ|λᶠ|Φᴳᵇ)\s*:", line)]})
     return result
 
 def extract_all_leaks(text):
     return re.findall(r"leak\s+(\w+)", text)
+
+def extract_leaked_methods(text):
+    return re.findall(r"leak\s+(\w+)\.(\w+)\(\)", text)
+
+def extract_identity_methods(text):
+    matches = re.findall(r"identity\s+\w+\s*{([^}]+)}", text)
+    methods = []
+    for block in matches:
+        for line in block.split(","):
+            if re.match(r"\w+\(\):\s*\w+", line.strip()):
+                method = line.strip().split("(")[0]
+                methods.append(method)
+    return methods
 
 def generate_diff_report(kairo_text, pulse, memory, trace):
     declared_leaks = extract_all_leaks(kairo_text)
@@ -55,30 +68,28 @@ def generate_diff_report(kairo_text, pulse, memory, trace):
     trace_missing = "trace session" in kairo_text and not any("trace" in l for l in trace)
     handoff_missing = "handoff" in kairo_text and not any("handoff" in l for l in trace)
 
-    identity_declared = [name for name, _ in extract_identities(kairo_text)]
-    spawn_found = bool(re.search(r"spawn\s+\w+\s+from\s+\w+", kairo_text))
-    merge_found = bool(re.search(r"merge\s+\w+\s+with\s+\w+", kairo_text))
-    recover_found = bool(re.search(r"recover\s+\w+", kairo_text))
+    method_declarations = extract_identity_methods(kairo_text)
+    method_calls = extract_leaked_methods(kairo_text)
+    missing_method_calls = [m for (_, m) in method_calls if m not in method_declarations]
 
     suggestions = []
     if missing_leaks:
         suggestions += [f"→ Execute leak {l}" for l in missing_leaks]
     if emotion_mismatch:
         suggestions.append("→ Update Memory.key to match declared emotion")
-    if merge_found:
-        suggestions.append("→ Confirm merge logic applied")
-    if recover_found:
-        suggestions.append("→ Verify snapshot recovery applied")
+    if missing_method_calls:
+        suggestions += [f"→ Method '{m}' called but not declared" for m in missing_method_calls]
+    if handoff_missing:
+        suggestions.append("→ Add handoff to Session.trace")
 
     return {
         "missing_leaks": missing_leaks,
         "emotion_mismatch": emotion_mismatch,
         "trace_missing": trace_missing,
         "handoff_missing": handoff_missing,
-        "identity_blocks": identity_declared,
-        "spawn_declared": spawn_found,
-        "merge_declared": merge_found,
-        "recover_declared": recover_found,
+        "identity_methods_declared": method_declarations,
+        "identity_method_calls": method_calls,
+        "missing_identity_calls": missing_method_calls,
         "suggestions": suggestions
     }
 
@@ -93,7 +104,7 @@ def write_report(report, filename="kairo.diffreport.md"):
 if __name__ == "__main__":
     import sys
     if len(sys.argv) < 2:
-        print("Usage: python pgc_diff_runner.py your_program.kairo")
+        print("Usage: python pgc_diff_runner.py program.kairo")
         exit(1)
 
     kairo_path = sys.argv[1]
