@@ -1,45 +1,36 @@
 # kairose_linter_v2.py
-# Kairose 문법 검사기 — v1.5-poetic-ops-final 대응
+# Kairose 문법 검사기 — v1.6-preview (method args + literals + flow ops)
 
 from identity_translator import gpt_guess_keyword
 import re
 
 def detect_ambiguous_keywords(lines):
     known = {
-        # 핵심 명령어
         "use", "remember", "leak", "trace", "link", "if", "then", "until",
         "observe", "affect", "structure", "type", "match", "switch", "flow",
         "route", "signal", "respond", "listen", "handoff", "ask", "gpt",
         "explain", "as", "from", "import", "with", "output", "map",
         "λᴱ", "ψᵢ", "λᶠ", "Φᴳᵇ",
-        # 흐름 확장
         "cycle", "fallback", "defer", "after",
         "identity", "spawn", "merge", "recover", "alias",
-        "return", "session", "step", "becomes"
+        "return", "session", "step", "becomes",
+        "true", "false", "String", "Float", "Bool"
     }
 
-    allowed_prefixes = ("affect", "leak", "return", "session", "step")
+    allowed_patterns = [
+        r"^\w+\(.*\):\s*\w+",          # method declaration with args
+        r"^leak\s+\w+\.\w+\(.*\)",     # leak obj.method("arg")
+        r"^alias\s+\w+\s+→\s+\w+",
+        r".*\b(becomes|shift|amplify|diminish|bleed from)\b.*",
+        r"^session\s+\w+:", r"^step\s+\d+:",
+        r"^return\s+.+"
+    ]
 
     suggestions = []
     for line in lines:
         stripped = line.strip()
-
-        # 허용된 확장 패턴
-        if stripped.startswith(allowed_prefixes):
+        if any(re.match(p, stripped) for p in allowed_patterns):
             continue
-        if re.match(r"^\w+\(\):\s*\w+", stripped):
-            continue
-        if re.match(r"^leak\s+\w+\.\w+\(\)", stripped):
-            continue
-        if re.match(r"^alias\s+\w+\s+→\s+\w+", stripped):
-            continue
-        if "becomes" in stripped:
-            continue
-        if "shift" in stripped or "amplify" in stripped or "diminish" in stripped or "bleed from" in stripped:
-            continue
-        if "and" in stripped or "or" in stripped or "!=" in stripped:
-            continue
-
         words = re.findall(r"\b[a-zA-Z_]+\b", line)
         for w in words:
             if w not in known and stripped.startswith(w):
@@ -65,7 +56,6 @@ def run_linter(path):
         return
 
     print("⚠️ 구조 해석이 필요한 키워드가 있습니다:")
-
     for line, kw in ambiguous:
         replacement = interactive_repair(line, kw)
         if replacement:
