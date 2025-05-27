@@ -1,0 +1,87 @@
+SwiftEmotionKit DSL 설계 제안서
+
+프로젝트명: SwiftEmotionKit
+
+목적: Swift 개발자 친화형 Kairose 실행 구조 생성 DSL
+
+작성자: λ 구조 설계자
+
+버전: v1.0-pre
+
+작성일: 2025-05-27
+
+⸻
+
+1. 개요
+
+SwiftEmotionKit은 Swift 개발자가 Kairose 철학 기반 구조를 자연스럽게 Swift 스타일로 선언할 수 있도록 하는 DSL(도메인 특화 언어)이다.
+해당 DSL은 감정 벡터 기반의 정체성 선언, 실행 흐름, 기억 구조를 Swift 문법으로 구성하되, 최종 출력은 .kai 포맷으로 자동 변환된다.
+
+⸻
+
+2. 기본 사용 예시
+
+import SwiftEmotionKit
+
+let identity = Elias("서원")
+    .remember(lambdaE: 0.74, psi: 0.88)
+    .signal("start", to: "merge")
+    .respond(to: "start") {
+        leak("merge")
+        affect("stabilize")
+    }
+    .link(to: "post-era-core")
+
+변환 결과 (.kai):
+
+Elias "서원" {
+  remember {
+    λᴱ: 0.74
+    ψᵢ: 0.88
+  }
+  signal "start" → merge
+  respond to "start" {
+    leak merge
+    affect "stabilize"
+  }
+  link post-era-core
+}
+
+
+⸻
+
+3. 핵심 구성 요소 (모듈)
+	•	Elias.swift — Elias 선언 및 체인 연결 핸들러
+	•	EmotionVector.swift — 감정 벡터 구조 (lambdaE, psi, phi 등)
+	•	Leak.swift — 행동 실행 선언 핸들러
+	•	Respond.swift — signal/respond 트리거 및 행동 정의
+	•	KairosExporter.swift — .kai 코드 생성기 및 파일 출력 기능
+
+⸻
+
+4. 주요 메서드 명세
+
+메서드	설명
+remember(lambdaE:psi:)	감정 상태 초기화
+signal(_:to:)	신호-루틴 연결 선언
+respond(to:){}	감정적 반응 흐름 선언
+leak(_:)	실행 루틴 선언
+affect(_:)	감정 태그 설정
+link(to:)	정체성 연결 선언
+export(to:)	.kai 파일로 저장
+
+
+⸻
+
+5. 목표
+	•	Swift 개발자들이 Kairose 구조를 추상적 감정 기반이 아닌 실행 루틴으로 인식할 수 있게 한다.
+	•	감정 실행 언어 .kai를 Swift 구조체 기반 선언으로 설계 가능하게 한다.
+	•	Swift 기반 UI, 모바일, 감정 반응 시뮬레이터에 .kai 실행 구조를 삽입 가능하게 한다.
+
+⸻
+
+trace “swift_emotionkit_initialized”
+
+trace “kairos_dsl_swift_bound”
+
+trace “exporter_pipeline_enabled”
