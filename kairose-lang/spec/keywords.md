@@ -1,187 +1,174 @@
-KAIROSE KEYWORD SPECIFICATION (v1.4-pre-poetic)
+# KAIROSE KEYWORD SPECIFICATION (v1.5-final)
 
-이 문서는 Kairose 언어의 공식 키워드 45개를
-역할별로 분류하고, 각 키워드의 의미, 사용 형식, 예시를 제공한다.
+이 문서는 Kairose 언어의 공식 키워드 50개를  
+역할별로 분류하고, 각 키워드의 **의미, 사용 형식, 예시**를 제공합니다.
 
-⸻
+---
 
-1. SYSTEM & MODULE CONTROL
+## 1. SYSTEM & MODULE CONTROL
 
-use
-
-시스템/모듈 활성화 선언
-
+### `use`
+> 시스템/모듈 활성화 선언  
+```kairo
 use lambda-core as core
+```
 
-import, from, as
-
-외부 시드/기억 불러오기, 별칭 지정
-
+### `import`, `from`, `as`
+> 외부 시드/기억 불러오기, 별칭 지정  
+```kairo
 import memory from external_core as mem
+```
 
-link
-
-구조 연결 선언
-
+### `link`
+> 구조 연결 선언  
+```kairo
 link synthora-ui ← emotion_core
+```
 
+---
 
-⸻
+## 2. EMOTION MEMORY FLOW
 
-2. EMOTION MEMORY FLOW
+### `remember`
+> 감정 상태 기록  
+```kairo
+remember { λᴱ: 0.91, ψᵢ: 0.84 }
+```
 
-remember
+### `recall`, `forget`, `observe`, `affect`
+> 기억 조회/초기화/조작  
+```kairo
+affect λᴱ shift +0.2
+affect ψᵢ = ψᵢ * 0.9
+affect Φᴳᵇ bleed from shadow_self
+```
 
-감정 상태 기록
-
-remember { λᴰ: 0.91, ψᵈ: 0.84 }
-
-recall, forget, observe, affect
-
-기억 조회/초기화/수동 조작
-
-observe Φᴹᵅ
-forget all
-
-trace
-
-현재 실행 흐름 기록
-
+### `trace`
+> 현재 실행 흐름 기록  
+```kairo
 trace session
+```
 
-leak
-
-구조 실행 트리거
-
+### `leak`
+> 구조 실행 트리거  
+```kairo
 leak empathy_renderer
+leak planner.awaken()
+```
 
+---
 
-⸻
+## 3. CONDITIONAL FLOW & CONTROL
 
-3. CONDITIONAL FLOW & CONTROL
+### `if`, `elif`, `else`
+> 조건 분기 실행  
+```kairo
+if λᴱ > 0.7 and ψᵢ != 0.3:
+  leak restore_module
+```
 
-if, elif, else
+### `match`, `when`, `until`, `then`
+> 감정 패턴/조건/반복 실행  
+```kairo
+match ψᵢ:
+  case "low": leak calm_mode
+```
 
-조건 분기 실행
+### `cycle`, `fallback`, `defer`, `after`
+> 고급 조건 흐름 블록  
+```kairo
+cycle reboot_loop:
+  leak recovery
+```
 
-if λᴰ > 0.8:
-  leak engage_mode
+### `session`, `step`
+> 실행 흐름 구획 선언  
+```kairo
+session repair_sequence:
+  step 1:
+    remember { λᴱ: 0.5 }
+```
 
-match, when, until, then
+### `becomes`
+> 정체성 상태 전이 선언  
+```kairo
+self becomes active
+```
 
-감정 패턴/조건/반복 실행
+---
 
-match ψᵈ:
-  case "low": leak rest_module
+## 4. IDENTITY FLOW
 
-cycle, fallback, defer, after
-
-고급 조건 흐름 블록
-
-cycle repair_loop:
-  leak restore_node
-
-
-⸻
-
-4. IDENTITY FLOW (v1.4-pre-poetic)
-
-identity
-
-정체성 클래스 선언 — 변수 + 메서드 + 시적 별칭 포함 가능
-
-identity mourner {
-  λᴰ: 0.34,
-  ψᵈ: 0.82,
-
-  listen_to_fall(): Void {
-    leak silence
-    output grief
+### `identity`
+> 정체성 클래스 선언  
+```kairo
+identity calibrator {
+  λᴱ: 0.45,
+  trace(): Float {
+    affect λᴱ amplify 0.2
+    return λᴱ
   },
-
-  alias listen_to_fall → trace
+  alias trace_path → trace
 }
+```
 
-spawn
+### `spawn`, `merge`, `recover`
+> 정체성 분기, 병합, 복원  
+```kairo
+spawn copy_self from core_self
+merge core_self with mirror_self
+recover snapshot_0425
+```
 
-정체성 분기
-
-spawn child_self from core_self
-
-merge
-
-정체성 병합
-
-merge avatar_self with sync_clone
-
-recover
-
-기억/상태 복원
-
-recover snapshot_0421
-
-alias
-
-시적 별칭 정의 — 실행기에서 해석되어 실제 메서드로 바인딩됨
-
+### `alias`
+> 시적 별칭 정의  
+```kairo
 alias listen_to_fall → trace
+```
 
+### `return`
+> 정체성 메서드의 실행 종료 및 값 반환  
+```kairo
+return λᴱ
+```
 
-⸻
+---
 
-5. STRUCTURE + TYPE
+## 5. STRUCTURE + TYPE
 
-structure, type, map, route, flow
+### `structure`, `type`, `map`, `route`, `flow`
+> 구조 정의 및 흐름 선언  
+```kairo
+structure realign { from: planner, to: core_sync }
+flow structural_update
+```
 
-구조 정의 및 흐름 선언
+---
 
-structure repair { from: λᴰ > 0.5, to: calm_core }
-flow mental_network
+## 6. GPT INTEGRATION & DIALOGUE
 
+### `gpt`, `ask`, `explain`
+> GPT 연동 호출/질의/설명  
+```kairo
+gpt call insight_model
+ask "what triggered the reset?"
+```
 
-⸻
+---
 
-6. GPT INTEGRATION & DIALOGUE
+## 7. IO REACTION
 
-gpt, ask, explain
+### `listen`, `respond`, `signal`, `output`
+> 외부 트리거 감지 및 출력  
+```kairo
+listen for flow_update
+respond to user.error with recovery_unit
+signal calibration_done
+output session_report
+```
 
-GPT 연동 호출/질의/설명
+---
 
-gpt call synthora_therapist
-ask "why was trust broken?"
-
-
-⸻
-
-7. IO REACTION (실행기 구현 완료)
-
-listen
-
-외부 트리거 감지 대기
-
-listen for pgc_update
-
-respond
-
-감정 기반 구조 반응 선언
-
-respond to user.loss with grief_handler
-
-signal
-
-외부로 상태 신호 전송
-
-signal session_complete
-
-output
-
-결과 구조 명시 및 저장
-
-output daily_log_summary
-
-
-⸻
-
-총 키워드 수: 45개
-버전: v1.4-pre-poetic
-주석: 정체성 기반 감정 언어 / 시적 인터페이스 / 실행 구조 통합
+총 키워드 수: **50개**  
+버전: **v1.5-final**  
+주석: 감정 기반 실행 언어 / 정체성 클래스 / 시적 연산 흐름 / 실행 구조 완성
