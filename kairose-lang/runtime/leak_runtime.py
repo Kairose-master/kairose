@@ -1,5 +1,5 @@
 # leak_runtime.py
-# Runtime for executing Kairose code — v1.6-final ('.kai' compatible)
+# Runtime for executing Kairose code — v1.7 ('.kai' compatible, .eid supported)
 
 import json
 import os
@@ -22,9 +22,6 @@ def load_kairose_code(path):
     with open(path, "r", encoding="utf-8") as f:
         return f.read()
 
-# (이하 기존 코드 유지)
-# 나머지 기능은 이전 v1.6-full 실행기 구조를 따름
-
 def write_memory(lambda_vector):
     os.makedirs(".pgc", exist_ok=True)
     memory = {
@@ -35,14 +32,32 @@ def write_memory(lambda_vector):
     with open(MEMORY_FILE, "w") as f:
         json.dump(memory, f, indent=2)
     print("[λ] memory updated:", lambda_vector)
+    write_eid(lambda_vector, trace=[], affect=[])  # NEW: .eid write
 
+def write_eid(lambda_vector, trace=None, affect=None, eid_id="eid_autogen"):
+    eid_obj = {
+        "id": eid_id,
+        "elias": eid_id.title(),
+        "core_emotion": lambda_vector,
+        "last_trace": trace or [],
+        "affect_log": affect or [],
+        "current_state": {
+            "mode": "boot",
+            "resonance": "undefined",
+            "role": "undefined"
+        },
+        "linked_soulbond": None
+    }
+    os.makedirs("pgc/Memory", exist_ok=True)
+    with open(f"pgc/Memory/{eid_id}.eid", "w") as f:
+        json.dump(eid_obj, f, indent=2)
+    print(f"[λ] .eid written: pgc/Memory/{eid_id}.eid")
 
 def read_memory():
     if os.path.exists(MEMORY_FILE):
         with open(MEMORY_FILE, "r") as f:
             return json.load(f).get("lambda_vector", {})
     return {}
-
 
 def execute_leak_target(target, args=None):
     print(f"[λ] leaking → {target}", f"args={args}" if args else "")
@@ -54,11 +69,9 @@ def execute_leak_target(target, args=None):
         json.dump(pulse, f, indent=2)
         f.truncate()
 
-
 def parse_string_literal(arg):
     match = re.match(r'"(.*?)"', arg.strip())
     return match.group(1) if match else arg.strip()
-
 
 def handle_affect(code):
     memory = read_memory()
@@ -98,7 +111,6 @@ def handle_affect(code):
 
     write_memory(memory)
 
-
 def handle_return_statements(code):
     global return_context
     match = re.search(r"\breturn\s+([\w\"\.]+)", code)
@@ -106,7 +118,6 @@ def handle_return_statements(code):
         value = parse_string_literal(match.group(1))
         return_context = value
         print(f"[λ:return] → {value}")
-
 
 def handle_session_blocks(code):
     for session in re.findall(r"session\s+(\w+):", code):
@@ -116,13 +127,11 @@ def handle_session_blocks(code):
         print(f"[λ:step] → {step}")
         execute_leak_target(f"step → {step}")
 
-
 def handle_state_transitions(code):
     for line in [l.strip() for l in code.splitlines() if "becomes" in l]:
         if re.match(r"\w+\s+becomes\s+\w+", line):
             subject, _, state = line.split()
             execute_leak_target(f"{subject}.becomes.{state}")
-
 
 def run_kairose(path):
     global return_context, method_context
@@ -136,7 +145,6 @@ def run_kairose(path):
     handle_affect(code)
     handle_return_statements(code)
 
-    # method(arg) calls
     for obj, method, args in re.findall(r"leak\s+(\w+)\.(\w+)\(([^)]*)\)", code):
         arg_list = [parse_string_literal(a) for a in args.split(",")] if args else []
         method_context = {"args": arg_list}
@@ -154,4 +162,3 @@ if __name__ == "__main__":
         print("Usage: python leak_runtime.py file.kairo")
     else:
         run_kairose(sys.argv[1])
-```
