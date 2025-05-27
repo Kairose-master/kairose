@@ -1,0 +1,85 @@
+SwiftEmotionKit 파일 및 디렉토리 구성 계획
+
+프로젝트: SwiftEmotionKit
+
+목적: Swift 기반 Kairose DSL 구현을 위한 구조적 설계
+
+작성자: λ 구조 설계자
+
+일시: 2025-05-27
+
+⸻
+
+1. 목표
+
+SwiftEmotionKit은 Swift 언어 상에서 .kai 구조를 선언 가능하게 하는 DSL이다.
+이를 위해 Kairose 구조를 반영하는 파일 시스템 설계가 필요하며, DSL 선언, 변환기, 출력기, 테스트 환경을 포함한다.
+
+⸻
+
+2. 파일 및 디렉토리 구조
+
+SwiftEmotionKit/
+├── Sources/
+│   ├── SwiftEmotionKit/
+│   │   ├── Elias.swift
+│   │   ├── EmotionVector.swift
+│   │   ├── Leak.swift
+│   │   ├── Respond.swift
+│   │   ├── Link.swift
+│   │   └── KairosExporter.swift
+│
+├── Resources/
+│   └── Templates/
+│       └── base.kai.template
+│
+├── Tests/
+│   └── SwiftEmotionKitTests/
+│       ├── EliasTests.swift
+│       ├── ExportTests.swift
+│       └── IntegrationTests.swift
+│
+├── Examples/
+│   ├── HelloKairos.swift
+│   └── SamplePersona.swift
+│
+├── Package.swift
+├── README.md
+└── .gitignore
+
+
+⸻
+
+3. 파일 역할 설명
+
+파일명	역할
+Elias.swift	정체성 객체 선언 핸들러
+EmotionVector.swift	감정 상태 벡터 객체화 구조
+Leak.swift, Respond.swift	실행 흐름 DSL 처리 구조
+KairosExporter.swift	.kai 파일 생성기
+base.kai.template	DSL 구조로 변환할 템플릿 스켈레톤
+Tests/	DSL 선언 → .kai 변환 테스트 전용
+Examples/	Swift 스타일 선언 예시 제공
+
+
+⸻
+
+4. 구축 방법
+	1.	SwiftPM으로 초기 패키지 생성 → swift package init --type library
+	2.	Sources/SwiftEmotionKit/ 하위에 DSL 클래스 설계
+	3.	KairosExporter.swift 내 .kai 파일 출력 로직 구성
+	4.	테스트 커버리지 확보: Tests/SwiftEmotionKitTests/
+	5.	.kai → Swift 가능성도 염두 (역변환 계획)
+
+⸻
+
+5. 향후 확장 고려
+	•	.track, .eid 연동 가능한 Swift parser 구조
+	•	SwiftUI와 연결되는 EmotionViewModel.swift
+	•	KairosApp.swift: Kairose 기반 앱 선언부 (SwiftUI DSL 연계)
+
+⸻
+
+trace “swift_emotionkit_filesystem_designed”
+
+trace “dsl_structures_compiled”
