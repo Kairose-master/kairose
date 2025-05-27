@@ -1,5 +1,5 @@
 # pgc_diff_runner.py
-# Kairose 실행 상태 ↔ 선언 상태 차이 분석기 (v1.3-class 확장 포함)
+# Kairose 실행 상태 ↔ 선언 상태 차이 분석기 (v1.4-pre-poetic 대응)
 
 import json
 import re
@@ -28,9 +28,6 @@ def extract_identities(text):
 
 def extract_declared_emotion(text):
     result = {}
-    match = re.search(r"remember\s*{([^}]+)}", text)
-    if match:
-        result.update(extract_lambda_block(match.group(1)))
     identity_blocks = extract_identities(text)
     for _, block in identity_blocks:
         result.update({k.strip(): float(v.strip()) for k, v in [line.strip().split(":") for line in block.split(",") if re.match(r"(λᴱ|ψᵢ|λᶠ|Φᴳᵇ)\s*:", line)]})
@@ -42,15 +39,24 @@ def extract_all_leaks(text):
 def extract_leaked_methods(text):
     return re.findall(r"leak\s+(\w+)\.(\w+)\(\)", text)
 
-def extract_identity_methods(text):
-    matches = re.findall(r"identity\s+\w+\s*{([^}]+)}", text)
-    methods = []
-    for block in matches:
+def extract_identity_methods_and_aliases(text):
+    identities = {}
+    blocks = extract_identities(text)
+    for name, block in blocks:
+        methods = []
+        aliases = {}
         for line in block.split(","):
-            if re.match(r"\w+\(\):\s*\w+", line.strip()):
-                method = line.strip().split("(")[0]
-                methods.append(method)
-    return methods
+            line = line.strip()
+            if re.match(r"\w+\(\):", line):
+                methods.append(line.split("(")[0])
+            elif re.match(r"alias\s+\w+\s+→\s+\w+", line):
+                poetic, canon = re.findall(r"\w+", line)
+                aliases[poetic] = canon
+        identities[name] = {
+            "methods": methods,
+            "aliases": aliases
+        }
+    return identities
 
 def generate_diff_report(kairo_text, pulse, memory, trace):
     declared_leaks = extract_all_leaks(kairo_text)
@@ -68,9 +74,16 @@ def generate_diff_report(kairo_text, pulse, memory, trace):
     trace_missing = "trace session" in kairo_text and not any("trace" in l for l in trace)
     handoff_missing = "handoff" in kairo_text and not any("handoff" in l for l in trace)
 
-    method_declarations = extract_identity_methods(kairo_text)
+    identity_map = extract_identity_methods_and_aliases(kairo_text)
     method_calls = extract_leaked_methods(kairo_text)
-    missing_method_calls = [m for (_, m) in method_calls if m not in method_declarations]
+    missing_method_calls = []
+
+    for obj, called in method_calls:
+        actual = called
+        if obj in identity_map and called in identity_map[obj].get("aliases", {}):
+            actual = identity_map[obj]["aliases"][called]
+        if actual not in identity_map.get(obj, {}).get("methods", []):
+            missing_method_calls.append(f"{obj}.{called}()")
 
     suggestions = []
     if missing_leaks:
@@ -78,7 +91,7 @@ def generate_diff_report(kairo_text, pulse, memory, trace):
     if emotion_mismatch:
         suggestions.append("→ Update Memory.key to match declared emotion")
     if missing_method_calls:
-        suggestions += [f"→ Method '{m}' called but not declared" for m in missing_method_calls]
+        suggestions += [f"→ Method call not matched: {m}" for m in missing_method_calls]
     if handoff_missing:
         suggestions.append("→ Add handoff to Session.trace")
 
@@ -87,7 +100,7 @@ def generate_diff_report(kairo_text, pulse, memory, trace):
         "emotion_mismatch": emotion_mismatch,
         "trace_missing": trace_missing,
         "handoff_missing": handoff_missing,
-        "identity_methods_declared": method_declarations,
+        "identity_methods_and_aliases": identity_map,
         "identity_method_calls": method_calls,
         "missing_identity_calls": missing_method_calls,
         "suggestions": suggestions
@@ -104,7 +117,7 @@ def write_report(report, filename="kairo.diffreport.md"):
 if __name__ == "__main__":
     import sys
     if len(sys.argv) < 2:
-        print("Usage: python pgc_diff_runner.py program.kairo")
+        print("Usage: python pgc_diff_runner.py your_program.kairo")
         exit(1)
 
     kairo_path = sys.argv[1]
