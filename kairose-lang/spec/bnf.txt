@@ -1,127 +1,72 @@
-# KAIROSE BNF v1.6-preview — IO Method & Literal Extension
-
-```ebnf
 <program> ::= { <statement> }
 
-<statement> ::= <use_stmt>
-              | <remember_stmt>
+<statement> ::= <remember_block>
               | <leak_stmt>
               | <trace_stmt>
               | <link_stmt>
-              | <if_stmt>
-              | <structure_decl>
-              | <type_decl>
-              | <nlu_block>
-              | <handoff_stmt>
-              | <gpt_stmt>
-              | <ask_stmt>
-              | <explain_stmt>
-              | <cycle_stmt>
-              | <defer_stmt>
-              | <fallback_stmt>
-              | <after_stmt>
-              | <identity_stmt>
-              | <spawn_stmt>
-              | <merge_stmt>
-              | <recover_stmt>
-              | <listen_stmt>
-              | <respond_stmt>
-              | <signal_stmt>
-              | <output_stmt>
               | <affect_stmt>
-              | <state_transition_stmt>
+              | <if_block>
+              | <elif_block>
+              | <else_block>
+              | <match_block>
+              | <switch_block>
+              | <cycle_block>
+              | <flow_block>
+              | <signal_stmt>
+              | <respond_block>
+              | <import_eid_stmt>
+              | <type_decl>
               | <return_stmt>
               | <session_block>
-              | <step_block>
+              | <comment>
 
-<use_stmt> ::= "use" <identifier> [ "as" <alias> ]
+<remember_block> ::= "remember" "{" <emotion_pair> { "," <emotion_pair> } "}"
+<emotion_pair> ::= <emotion_key> ":" <float>
+<emotion_key> ::= "λᴱ" | "ψᵢ" | "λᶠ" | "Φᴳᵇ"
 
-<remember_stmt> ::= "remember" "{" <lambda_pair> { "," <lambda_pair> } "}"
-<lambda_pair> ::= "λᴱ" ":" <float>
-                | "ψᵢ" ":" <float>
-                | "λᶠ" ":" <float>
-                | "Φᴳᵇ" ":" <float>
+<leak_stmt> ::= "leak" <identifier> [ "." <method> "(" [<args>] ")" ]
 
-<leak_stmt> ::= "leak" <identifier>
-              | "leak" <identifier> "." <identifier> "(" <arg_list> ")"
-
-<arg_list> ::= <value> { "," <value> }
-
-<value> ::= <float>
-          | <string_literal>
-          | <bool_literal>
-          | <identifier>
-
-<string_literal> ::= "\"" { <character> } "\""
-<bool_literal> ::= "true" | "false"
-
-<trace_stmt> ::= "trace" "session"
+<trace_stmt> ::= "trace session"
 <link_stmt> ::= "link" <identifier> "←" <identifier>
+<affect_stmt> ::= "affect" <emotion_key> <affect_op>
 
-<if_stmt> ::= "if" <logical_expr> ":" <indented_block>
-<logical_expr> ::= <lambda_expr> ("and" | "or" | "") <lambda_expr>
-<lambda_expr> ::= <lambda_var> <operator> <float>
-<lambda_var> ::= "λᴱ" | "ψᵢ" | "λᶠ" | "Φᴳᵇ"
-<operator> ::= ">" | "<" | ">=" | "<=" | "==" | "!="
-
-<structure_decl> ::= "structure" <identifier> "{" <structure_field> { "," <structure_field> } "}"
-<structure_field> ::= "from" ":" <identifier>
-                    | "to" ":" <identifier>
-                    | "condition" ":" <lambda_expr>
-
-<type_decl> ::= "type" <identifier> "=" "{" <typed_field> { "," <typed_field> } "}"
-<typed_field> ::= <identifier> ":" <type>
-<type> ::= "Float" | "String" | "Bool" | <identifier>
-
-<nlu_block> ::= "nlu" "{" <quoted_text> "}"
-<handoff_stmt> ::= "handoff" "to" <identifier>
-<gpt_stmt> ::= "gpt" "call" <identifier>
-<ask_stmt> ::= "ask" <quoted_text>
-<explain_stmt> ::= "explain" <identifier>
-
-<cycle_stmt> ::= "cycle" <identifier> ":" <indented_block>
-<defer_stmt> ::= "defer" ":" <indented_block>
-<fallback_stmt> ::= "fallback" ":" <indented_block>
-<after_stmt> ::= "after" <leak_stmt> ":" <indented_block>
-
-<identity_stmt> ::= "identity" <identifier> "{" <identity_field> { "," <identity_field> } "}"
-<identity_field> ::= <lambda_pair>
-                   | <identifier> ":" <type>
-                   | <identifier> "(" <param_list> ")" ":" <type> <method_block>
-                   | "alias" <identifier> "→" <identifier>
-
-<param_list> ::= <param> { "," <param> }
-<param> ::= <identifier> ":" <type>
-
-<method_block> ::= "{" <statement> { <statement> } "}"
-
-<spawn_stmt> ::= "spawn" <identifier> "from" <identifier>
-<merge_stmt> ::= "merge" <identifier> "with" <identifier>
-<recover_stmt> ::= "recover" <identifier>
-
-<listen_stmt> ::= "listen" "for" <identifier>
-<respond_stmt> ::= "respond" "to" <identifier> "with" <identifier>
-<signal_stmt> ::= "signal" <identifier>
-<output_stmt> ::= "output" <value>
-
-<affect_stmt> ::= "affect" <lambda_var> <affect_op>
-<affect_op> ::= "=" <arithmetic_expr>
-              | "shift" ("+" | "-") <float>
+<affect_op> ::= "shift" <float>
               | "diminish" <float>
               | "amplify" <float>
-              | "bleed" "from" <identifier>
-<arithmetic_expr> ::= <lambda_var> ("+" | "-" | "*" | "/") <float>
+              | "bleed" <identifier>
+              | "=" <identifier> <operator> <float>
 
-<state_transition_stmt> ::= <identifier> "becomes" <identifier>
-<return_stmt> ::= "return" <value>
-<session_block> ::= "session" <identifier> ":" <indented_block>
-<step_block> ::= "step" <number> ":" <indented_block>
+<if_block> ::= "if" <condition> "{" <program> "}"
+<elif_block> ::= "elif" <condition> "{" <program> "}"
+<else_block> ::= "else" "{" <program> "}"
+<condition> ::= <emotion_key> <comparison_op> <float>
 
-<quoted_text> ::= "\"" { <character> } "\""
-<identifier> ::= <letter> { <letter> | <digit> | "_" }
-<float> ::= <digit> "." <digit>+
-<alias> ::= <identifier>
-<number> ::= <digit>+
+<match_block> ::= "match" <emotion_key> "{" { <case_clause> } "}"
+<case_clause> ::= "case" <comparison_op> <float> "{" <program> "}"
 
-<indented_block> ::= INDENT <statement> { <statement> } DEDENT
-```
+<switch_block> ::= "switch" <identifier> "{" { <case_string> } [<default_clause>] "}"
+<case_string> ::= "case" <string> "{" <program> "}"
+<default_clause> ::= "default" "{" <program> "}"
+
+<cycle_block> ::= "cycle" <identifier> "{" <program> "until" <condition> "}"
+<flow_block> ::= "flow" <identifier> "{" <program> "}"
+
+<return_stmt> ::= "return" <identifier>
+<session_block> ::= "session" <identifier> ":" <program>
+
+<signal_stmt> ::= "signal" <string> "→" <identifier>
+<respond_block> ::= "respond" "to" <string> "{" <program> "}"
+
+<import_eid_stmt> ::= "import_eid" <string>
+<type_decl> ::= "type" <identifier> ":" "eid"
+
+<identifier> ::= letter { letter | digit | "_" }
+<method> ::= <identifier>
+<args> ::= <string> { "," <string> }
+
+<float> ::= digit+ "." digit+
+<string> ::= '"' { any character except '"' } '"'
+<comment> ::= "#" { any character }
+
+<operator> ::= "+" | "-" | "*" | "/"
+<comparison_op> ::= ">" | "<" | ">=" | "<=" | "==" | "!="
