@@ -13,7 +13,7 @@ PULSE = ".pgc/Pulse.json"
 SNAPSHOT_DIR = ".pgc/snapshots"
 
 IDENTITY_CLASSES = {}
-return_context = None  # for return support inside method blocks
+return_context = None
 
 def load_kairose_code(path):
     with open(path, "r", encoding="utf-8") as f:
@@ -95,13 +95,36 @@ def handle_state_transitions(code):
         if re.match(r"\w+\s+becomes\s+\w+", line):
             subject, _, state = line.split()
             print(f"[λ] {subject} has entered state: {state}")
+            execute_leak_target(f"{subject}.becomes.{state}")
+
+def handle_session_blocks(code):
+    sessions = re.findall(r"session\s+(\w+)\s*:", code)
+    steps = re.findall(r"step\s+(\d+)\s*:", code)
+
+    for session in sessions:
+        print(f"[λ:session] starting session: {session}")
+        execute_leak_target(f"session → {session}")
+
+    for step in steps:
+        print(f"[λ:step] executing step {step}")
+        execute_leak_target(f"step → {step}")
+
+def handle_return_statements(code):
+    global return_context
+    match = re.search(r"\breturn\s+([\w\.]+)", code)
+    if match:
+        value = match.group(1)
+        return_context = value
+        print(f"[λ:return] returning value: {value}")
 
 def run_kairose(path):
     global return_context
     code = load_kairose_code(path)
 
+    handle_session_blocks(code)
     handle_state_transitions(code)
     handle_affect(code)
+    handle_return_statements(code)
 
     for target in re.findall(r"leak\s+(\w+)(?!\.\w)", code):
         execute_leak_target(target)
@@ -112,7 +135,7 @@ def run_kairose(path):
             aliases = IDENTITY_CLASSES[obj].get("aliases", {})
             if method in aliases:
                 actual = aliases[method]
-                print(f"[λ:alias] '{method}' resolved → '{actual}'")
+                print(f"[λ:alias] poetic method '{method}' resolved → '{actual}'")
             if actual in IDENTITY_CLASSES[obj]["methods"]:
                 execute_leak_target(f"{obj}.{actual}()")
         else:
@@ -120,6 +143,9 @@ def run_kairose(path):
 
     if "trace session" in code:
         trace_session()
+
+    if return_context:
+        print(f"[λ] Final returned value → {return_context}")
 
 if __name__ == "__main__":
     import sys
