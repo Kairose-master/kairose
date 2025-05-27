@@ -1,5 +1,5 @@
 # leak_runtime.py
-# Runtime for executing Kairose code — v1.5-poetic-ops-final
+# Kairose v1.6 FULL — identity, affect, method(args), return, flow, literals, IO
 
 import json
 import os
@@ -14,10 +14,13 @@ SNAPSHOT_DIR = ".pgc/snapshots"
 
 IDENTITY_CLASSES = {}
 return_context = None
+method_context = {}
+
 
 def load_kairose_code(path):
     with open(path, "r", encoding="utf-8") as f:
         return f.read()
+
 
 def write_memory(lambda_vector):
     os.makedirs(".pgc", exist_ok=True)
@@ -30,26 +33,29 @@ def write_memory(lambda_vector):
         json.dump(memory, f, indent=2)
     print("[λ] memory updated:", lambda_vector)
 
+
 def read_memory():
     if os.path.exists(MEMORY_FILE):
         with open(MEMORY_FILE, "r") as f:
             return json.load(f).get("lambda_vector", {})
     return {}
 
-def execute_leak_target(target):
-    print(f"[λ] leaking → {target}")
+
+def execute_leak_target(target, args=None):
+    print(f"[λ] leaking → {target}", f"args={args}" if args else "")
     os.makedirs(".pgc", exist_ok=True)
     with open(PULSE, "r+") as f:
         pulse = json.load(f)
-        pulse["λ-Pulse"]["heartbeat"].append(f"leak → {target}")
+        pulse["λ-Pulse"]["heartbeat"].append(f"leak → {target}" + (f"({args})" if args else ""))
         f.seek(0)
         json.dump(pulse, f, indent=2)
         f.truncate()
 
-def trace_session():
-    os.makedirs(".pgc", exist_ok=True)
-    with open(SESSION_TRACE, "a") as f:
-        f.write("[λ] session traced via kairose\n")
+
+def parse_string_literal(arg):
+    match = re.match(r'"(.*?)"', arg.strip())
+    return match.group(1) if match else arg.strip()
+
 
 def handle_affect(code):
     memory = read_memory()
@@ -89,67 +95,60 @@ def handle_affect(code):
 
     write_memory(memory)
 
-def handle_state_transitions(code):
-    lines = [l.strip() for l in code.splitlines() if "becomes" in l]
-    for line in lines:
-        if re.match(r"\w+\s+becomes\s+\w+", line):
-            subject, _, state = line.split()
-            print(f"[λ] {subject} has entered state: {state}")
-            execute_leak_target(f"{subject}.becomes.{state}")
-
-def handle_session_blocks(code):
-    sessions = re.findall(r"session\s+(\w+)\s*:", code)
-    steps = re.findall(r"step\s+(\d+)\s*:", code)
-
-    for session in sessions:
-        print(f"[λ:session] starting session: {session}")
-        execute_leak_target(f"session → {session}")
-
-    for step in steps:
-        print(f"[λ:step] executing step {step}")
-        execute_leak_target(f"step → {step}")
 
 def handle_return_statements(code):
     global return_context
-    match = re.search(r"\breturn\s+([\w\.]+)", code)
+    match = re.search(r"\breturn\s+([\w\"\.]+)", code)
     if match:
-        value = match.group(1)
+        value = parse_string_literal(match.group(1))
         return_context = value
-        print(f"[λ:return] returning value: {value}")
+        print(f"[λ:return] → {value}")
+
+
+def handle_session_blocks(code):
+    for session in re.findall(r"session\s+(\w+):", code):
+        print(f"[λ:session] → {session}")
+        execute_leak_target(f"session → {session}")
+    for step in re.findall(r"step\s+(\d+):", code):
+        print(f"[λ:step] → {step}")
+        execute_leak_target(f"step → {step}")
+
+
+def handle_state_transitions(code):
+    for line in [l.strip() for l in code.splitlines() if "becomes" in l]:
+        if re.match(r"\w+\s+becomes\s+\w+", line):
+            subject, _, state = line.split()
+            execute_leak_target(f"{subject}.becomes.{state}")
+
 
 def run_kairose(path):
-    global return_context
+    global return_context, method_context
     code = load_kairose_code(path)
+
+    return_context = None
+    method_context = {}
 
     handle_session_blocks(code)
     handle_state_transitions(code)
     handle_affect(code)
     handle_return_statements(code)
 
-    for target in re.findall(r"leak\s+(\w+)(?!\.\w)", code):
+    # method(arg) calls
+    for obj, method, args in re.findall(r"leak\s+(\w+)\.(\w+)\(([^)]*)\)", code):
+        arg_list = [parse_string_literal(a) for a in args.split(",")] if args else []
+        method_context = {"args": arg_list}
+        execute_leak_target(f"{obj}.{method}()", arg_list)
+
+    for target in re.findall(r"leak\s+(\w+)(?![\.\(])", code):
         execute_leak_target(target)
 
-    for obj, method in re.findall(r"leak\s+(\w+)\.(\w+)\(\)", code):
-        actual = method
-        if obj in IDENTITY_CLASSES:
-            aliases = IDENTITY_CLASSES[obj].get("aliases", {})
-            if method in aliases:
-                actual = aliases[method]
-                print(f"[λ:alias] poetic method '{method}' resolved → '{actual}'")
-            if actual in IDENTITY_CLASSES[obj]["methods"]:
-                execute_leak_target(f"{obj}.{actual}()")
-        else:
-            print(f"[!] unknown identity: {obj}")
-
-    if "trace session" in code:
-        trace_session()
-
     if return_context:
-        print(f"[λ] Final returned value → {return_context}")
+        print(f"[λ] return value: {return_context}")
 
 if __name__ == "__main__":
     import sys
     if len(sys.argv) < 2:
-        print("Usage: python leak_runtime.py your_program.kairo")
+        print("Usage: python leak_runtime.py file.kairo")
     else:
         run_kairose(sys.argv[1])
+```
