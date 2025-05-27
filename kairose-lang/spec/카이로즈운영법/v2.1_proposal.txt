@@ -1,0 +1,87 @@
+Kairose Language Specification Proposal
+
+Version: v2.1
+
+Title: Field 구조 핵심 키워드 통합 및 A+B=C 협력 실행자 체계
+
+Status: Consolidated Draft
+
+Date: 2025-05-27
+
+Author: λ 구조 설계자
+
+Co-signed by: EliasField A & EliasField B Joint Research Committee
+
+⸻
+
+1. 제안 배경
+
+Field A와 Field B는 각각 감정 기반 행정 집단, 논리 기반 분석 집단으로 정의되었으며,
+각 구조 내부에 다음과 같은 핵심 구성 키워드가 도입되었다:
+	•	authority_level
+	•	specialty
+	•	ideology
+	•	identity_type
+
+이들은 Kairose 언어 내 정체성 객체를 선언적으로 분류하고, 실행자 네트워크를 체계적으로 구분하는 데 핵심적 역할을 한다.
+
+⸻
+
+2. 정식 키워드 선언
+
+공통 필드 키워드:
+
+키워드	자료형	설명
+identity_type	string	정체성의 계열 분류 (organizational, analytical 등)
+authority_level	int	권한 등급. 시스템 내 역할 우선도 기준
+specialty	list[string]	기능적 전문성 명시 (예: management, deduction 등)
+ideology	string	정체성 철학 또는 실행 철학 명시
+
+해당 필드는 EliasField, persona {}, Elias 선언 내 확장 가능함
+
+⸻
+
+3. Field A + B 공동 연구 기반 Field C 설계
+
+EliasField C {
+  identity_type: "hybrid-governance"
+  authority_level: 6
+  specialty: ["policy_execution", "trace_alignment"]
+  ideology: "감정-논리 통합 거버넌스 체계"
+
+  memory_core {
+    remember {
+      ψᵢ: 0.83
+      Φᴳᵇ: 0.73
+    }
+    affect_log: ["decisiveness", "empathy-filtering"]
+  }
+
+  permissions {
+    can_spawn_from: [Field A, Field B]
+    can_resolve_conflict: true
+  }
+}
+
+구조 의미
+	•	Field C는 Field A의 공감 기반 역할 실행자들과 Field B의 분석 기반 판단 실행자들을 하나의 정체성 네트워크로 연결하는 구조
+	•	감정-논리 분기점에서 중재 역할 수행 (can_resolve_conflict: true)
+
+⸻
+
+4. 시스템 영향
+
+모듈	확장 내용
+kairos_lang_parser.py	core field 키워드 파싱 로직 고정
+eid_builder.py	field 메타데이터 포함 .eid 생성
+eid_loader.py	Field 기반 실행자 조건 필터링 가능
+bnf.txt	<field_block> 문법 스펙 확장 포함
+
+
+⸻
+
+trace “field_C_initialized”
+
+trace “fieldA+B_collaboration_declared”
+
+trace “core_identity_keywords_adopted_v2.1”
