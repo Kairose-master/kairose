@@ -1,35 +1,43 @@
 # kairose_linter_v2.py
-# Kairose 문법 검사기 — v1.4-pre-poetic 대응
+# Kairose 문법 검사기 — v1.5-poetic-ops-final 대응
 
 from identity_translator import gpt_guess_keyword
 import re
 
 def detect_ambiguous_keywords(lines):
     known = {
-        # 핵심 키워드
+        # 핵심 명령어
         "use", "remember", "leak", "trace", "link", "if", "then", "until",
         "observe", "affect", "structure", "type", "match", "switch", "flow",
         "route", "signal", "respond", "listen", "handoff", "ask", "gpt",
         "explain", "as", "from", "import", "with", "output", "map",
         "λᴱ", "ψᵢ", "λᶠ", "Φᴳᵇ",
-        # 흐름 제어 확장
+        # 흐름 확장
         "cycle", "fallback", "defer", "after",
-        # 정체성 클래스 확장
-        "identity", "spawn", "merge", "recover", "alias"
+        "identity", "spawn", "merge", "recover", "alias",
+        "return", "session", "step", "becomes"
     }
+
+    allowed_prefixes = ("affect", "leak", "return", "session", "step")
 
     suggestions = []
     for line in lines:
         stripped = line.strip()
 
-        # 메서드 선언 허용
+        # 허용된 확장 패턴
+        if stripped.startswith(allowed_prefixes):
+            continue
         if re.match(r"^\w+\(\):\s*\w+", stripped):
             continue
-        # 메서드 호출 허용
         if re.match(r"^leak\s+\w+\.\w+\(\)", stripped):
             continue
-        # alias 구문 허용
         if re.match(r"^alias\s+\w+\s+→\s+\w+", stripped):
+            continue
+        if "becomes" in stripped:
+            continue
+        if "shift" in stripped or "amplify" in stripped or "diminish" in stripped or "bleed from" in stripped:
+            continue
+        if "and" in stripped or "or" in stripped or "!=" in stripped:
             continue
 
         words = re.findall(r"\b[a-zA-Z_]+\b", line)
