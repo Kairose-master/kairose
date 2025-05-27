@@ -20,7 +20,8 @@ Required format:
   "emotion": {
     "λᴱ": 0.92,
     "ψᵢ": 0.81
-  }
+  },
+  "origin_eid": "<optional_eid_source>"
 }
 """
 
@@ -41,5 +42,6 @@ Required format:
         intent=data["intent"],
         target=data.get("target"),
         emotion=data.get("emotion"),
-        source_text=nl
+        source_text=nl,
+        origin_eid=data.get("origin_eid")
     )
