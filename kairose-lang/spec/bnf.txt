@@ -68,9 +68,13 @@
 <after_stmt> ::= "after" <leak_stmt> ":" <indented_block>
 
 <identity_stmt> ::= "identity" <identifier> "{" <identity_field> { "," <identity_field> } "}"
+
 <identity_field> ::= <lambda_pair>
                    | <identifier> ":" <type>
-                   | <identifier> "(" ")" ":" <type>
+                   | <identifier> "(" ")" ":" <type> <method_block>
+                   | "alias" <identifier> "→" <identifier>
+
+<method_block> ::= "{" <statement> { <statement> } "}"
 
 <spawn_stmt> ::= "spawn" <identifier> "from" <identifier>
 <merge_stmt> ::= "merge" <identifier> "with" <identifier>
