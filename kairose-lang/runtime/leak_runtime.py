@@ -1,5 +1,5 @@
 # leak_runtime.py
-# Runtime for executing Kairose code (powered by λeak engine)
+# Runtime for executing Kairose code (v1.2.1 — λeak engine 확장)
 
 import json
 import os
@@ -51,7 +51,7 @@ def link_system(to, via):
     os.makedirs(".pgc", exist_ok=True)
     sig = {
         "λ-Link-Signature": {
-            "this_repo": "kairose-test",
+            "this_repo": "kairose-runtime",
             "outputs": [via],
             "links_to": [to],
             "registered_at": "auto"
@@ -61,17 +61,20 @@ def link_system(to, via):
         json.dump(sig, f, indent=2)
     print(f"[λeak] linked: {to} ← {via}")
 
+def extract_all_leak_targets(code):
+    # 모든 leak 키워드를 추출 (블록 내 포함)
+    return re.findall(r"leak\s+(\w+)", code)
+
 def run_kairose(path):
     code = load_kairose_code(path)
 
-    # Remember
+    # Memory
     if "remember" in code:
         λ = parse_remember_block(code)
         write_memory(λ)
 
-    # Leak
-    leak_targets = re.findall(r"leak\s+(\w+)", code)
-    for target in leak_targets:
+    # Leak 전체 추출
+    for target in extract_all_leak_targets(code):
         execute_leak_target(target)
 
     # Trace
