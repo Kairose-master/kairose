@@ -1,6 +1,6 @@
-KAIROSE KEYWORD SPECIFICATION (v1.3-pre)
+KAIROSE KEYWORD SPECIFICATION (v1.4-pre-poetic)
 
-이 문서는 Kairose 언어의 공식 키워드 44개를
+이 문서는 Kairose 언어의 공식 키워드 45개를
 역할별로 분류하고, 각 키워드의 의미, 사용 형식, 예시를 제공한다.
 
 ⸻
@@ -84,13 +84,23 @@ cycle repair_loop:
 
 ⸻
 
-4. IDENTITY FLOW (v1.3-pre)
+4. IDENTITY FLOW (v1.4-pre-poetic)
 
 identity
 
-정체성 선언
+정체성 클래스 선언 — 변수 + 메서드 + 시적 별칭 포함 가능
 
-identity core_self { λᴰ: 0.91, Φᴹᵅ: 0.28 }
+identity mourner {
+  λᴰ: 0.34,
+  ψᵈ: 0.82,
+
+  listen_to_fall(): Void {
+    leak silence
+    output grief
+  },
+
+  alias listen_to_fall → trace
+}
 
 spawn
 
@@ -109,6 +119,12 @@ recover
 기억/상태 복원
 
 recover snapshot_0421
+
+alias
+
+시적 별칭 정의 — 실행기에서 해석되어 실제 메서드로 바인딩됨
+
+alias listen_to_fall → trace
 
 
 ⸻
@@ -137,18 +153,35 @@ ask "why was trust broken?"
 
 ⸻
 
-7. IO REACTION
+7. IO REACTION (실행기 구현 완료)
 
-listen, respond, signal, output
+listen
 
-외부 트리거 반응 및 출력
+외부 트리거 감지 대기
 
-respond to user.loss with grief_manager
-signal end_session
+listen for pgc_update
+
+respond
+
+감정 기반 구조 반응 선언
+
+respond to user.loss with grief_handler
+
+signal
+
+외부로 상태 신호 전송
+
+signal session_complete
+
+output
+
+결과 구조 명시 및 저장
+
+output daily_log_summary
 
 
 ⸻
 
-총 키워드 수: 44개
-버전: v1.3-pre
-주석: 감정 기반 실행 언어 / GPT 흐름 통합 / 정체성 구조 지원
+총 키워드 수: 45개
+버전: v1.4-pre-poetic
+주석: 정체성 기반 감정 언어 / 시적 인터페이스 / 실행 구조 통합
