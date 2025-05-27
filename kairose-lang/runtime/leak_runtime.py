@@ -1,40 +1,45 @@
 # leak_runtime.py
-# Runtime for executing Kairose code (v1.2.1 — λeak engine 확장)
+# Runtime for executing Kairose code (v1.3-pre identity 확장 대응)
 
 import json
 import os
 import re
+from copy import deepcopy
 
 MEMORY_FILE = ".pgc/Memory.key"
 SESSION_TRACE = ".pgc/Session.trace"
 LINK_SIG = ".pgc/Link.sig"
 PULSE = ".pgc/Pulse.json"
+SNAPSHOT_DIR = ".pgc/snapshots"
 
 def load_kairose_code(path):
     with open(path, "r", encoding="utf-8") as f:
         return f.read()
 
-def parse_remember_block(code):
-    match = re.search(r"remember\s*{([^}]+)}", code)
-    if match:
-        content = match.group(1)
-        lines = [line.strip() for line in content.split(",")]
-        return {k.strip(): float(v.strip()) for k, v in (line.split(":") for line in lines)}
-    return {}
+def parse_lambda_block(text):
+    lines = [line.strip() for line in text.split(",")]
+    return {k.strip(): float(v.strip()) for k, v in (line.split(":") for line in lines)}
 
 def write_memory(lambda_vector):
+    os.makedirs(".pgc", exist_ok=True)
     memory = {
-        "seed_id": "kairose_λeak_001",
         "lambda_vector": lambda_vector,
+        "seed_id": "kairose_λeak",
         "stored_at": "auto"
     }
-    os.makedirs(".pgc", exist_ok=True)
     with open(MEMORY_FILE, "w") as f:
         json.dump(memory, f, indent=2)
-    print("[λeak] remembered:", lambda_vector)
+    print("[λ] memory updated:", lambda_vector)
+
+def read_memory():
+    if os.path.exists(MEMORY_FILE):
+        with open(MEMORY_FILE, "r") as f:
+            return json.load(f).get("lambda_vector", {})
+    return {}
 
 def execute_leak_target(target):
-    print(f"[λeak] leaking structure: {target}")
+    print(f"[λ] leaking → {target}")
+    os.makedirs(".pgc", exist_ok=True)
     with open(PULSE, "r+") as f:
         pulse = json.load(f)
         pulse["λ-Pulse"]["heartbeat"].append(f"leak → {target}")
@@ -45,7 +50,7 @@ def execute_leak_target(target):
 def trace_session():
     os.makedirs(".pgc", exist_ok=True)
     with open(SESSION_TRACE, "a") as f:
-        f.write("[λeak] session traced via kairose\n")
+        f.write("[λ] session traced via kairose\n")
 
 def link_system(to, via):
     os.makedirs(".pgc", exist_ok=True)
@@ -59,31 +64,57 @@ def link_system(to, via):
     }
     with open(LINK_SIG, "w") as f:
         json.dump(sig, f, indent=2)
-    print(f"[λeak] linked: {to} ← {via}")
+    print(f"[λ] linked: {to} ← {via}")
 
-def extract_all_leak_targets(code):
-    # 모든 leak 키워드를 추출 (블록 내 포함)
-    return re.findall(r"leak\s+(\w+)", code)
+def handle_identity_blocks(code):
+    identities = re.findall(r"identity\s+(\w+)\s*{([^}]+)}", code)
+    for name, body in identities:
+        vec = parse_lambda_block(body)
+        print(f"[λ] identity defined: {name} → {vec}")
+        write_memory(vec)  # overwrite as current
+
+    spawns = re.findall(r"spawn\s+(\w+)\s+from\s+(\w+)", code)
+    for new, src in spawns:
+        mem = read_memory()
+        cloned = deepcopy(mem)
+        print(f"[λ] spawned {new} from {src}")
+        write_memory(cloned)
+
+    merges = re.findall(r"merge\s+(\w+)\s+with\s+(\w+)", code)
+    for a, b in merges:
+        mem = read_memory()
+        merged = {k: (v + mem.get(k, 0)) / 2 for k, v in mem.items()}
+        print(f"[λ] merged {a} with {b}")
+        write_memory(merged)
+
+    recovers = re.findall(r"recover\s+(\w+)", code)
+    for snap in recovers:
+        path = os.path.join(SNAPSHOT_DIR, f"{snap}.json")
+        if os.path.exists(path):
+            with open(path, "r") as f:
+                restored = json.load(f)
+                print(f"[λ] recovered from {snap}")
+                write_memory(restored.get("lambda_vector", {}))
+        else:
+            print(f"[λ] recovery failed: snapshot {snap} not found")
 
 def run_kairose(path):
     code = load_kairose_code(path)
 
-    # Memory
     if "remember" in code:
-        λ = parse_remember_block(code)
-        write_memory(λ)
+        block = re.search(r"remember\s*{([^}]+)}", code)
+        if block:
+            write_memory(parse_lambda_block(block.group(1)))
 
-    # Leak 전체 추출
-    for target in extract_all_leak_targets(code):
+    handle_identity_blocks(code)
+
+    for target in re.findall(r"leak\s+(\w+)", code):
         execute_leak_target(target)
 
-    # Trace
     if "trace session" in code:
         trace_session()
 
-    # Link
-    link_matches = re.findall(r"link\s+(\w+)\s+←\s+(\w+)", code)
-    for to, via in link_matches:
+    for to, via in re.findall(r"link\s+(\w+)\s+←\s+(\w+)", code):
         link_system(to, via)
 
 if __name__ == "__main__":
