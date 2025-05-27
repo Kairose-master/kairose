@@ -21,6 +21,10 @@
               | <spawn_stmt>
               | <merge_stmt>
               | <recover_stmt>
+              | <listen_stmt>
+              | <respond_stmt>
+              | <signal_stmt>
+              | <output_stmt>
 
 <use_stmt> ::= "use" <identifier> [ "as" <alias> ]
 
@@ -67,6 +71,11 @@
 <spawn_stmt> ::= "spawn" <identifier> "from" <identifier>
 <merge_stmt> ::= "merge" <identifier> "with" <identifier>
 <recover_stmt> ::= "recover" <identifier>
+
+<listen_stmt> ::= "listen" "for" <identifier>
+<respond_stmt> ::= "respond" "to" <identifier> "with" <identifier>
+<signal_stmt> ::= "signal" <identifier>
+<output_stmt> ::= "output" <identifier>
 
 <quoted_text> ::= "\"" { <character> } "\""
 <identifier> ::= <letter> { <letter> | <digit> | "_" }
