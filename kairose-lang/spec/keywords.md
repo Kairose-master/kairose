@@ -1,6 +1,6 @@
-# KAIROSE KEYWORD SPECIFICATION (v1.5-final)
+# KAIROSE KEYWORD SPECIFICATION (v1.6-final)
 
-이 문서는 Kairose 언어의 공식 키워드 50개를  
+이 문서는 Kairose 언어의 공식 키워드 52개를
 역할별로 분류하고, 각 키워드의 **의미, 사용 형식, 예시**를 제공합니다.
 
 ---
@@ -53,7 +53,7 @@ trace session
 > 구조 실행 트리거  
 ```kairo
 leak empathy_renderer
-leak planner.awaken()
+leak planner.awaken("data.kairo")
 ```
 
 ---
@@ -100,15 +100,17 @@ self becomes active
 ## 4. IDENTITY FLOW
 
 ### `identity`
-> 정체성 클래스 선언  
+> 정체성 클래스 선언 (변수, 메서드, 인자 포함)  
 ```kairo
-identity calibrator {
-  λᴱ: 0.45,
-  trace(): Float {
-    affect λᴱ amplify 0.2
-    return λᴱ
+identity io_agent {
+  λᴱ: 0.73,
+
+  read_from(path: String): Structure {
+    output "reading " + path
+    return path
   },
-  alias trace_path → trace
+
+  alias read_seed → read_from
 }
 ```
 
@@ -129,7 +131,7 @@ alias listen_to_fall → trace
 ### `return`
 > 정체성 메서드의 실행 종료 및 값 반환  
 ```kairo
-return λᴱ
+return "complete"
 ```
 
 ---
@@ -164,11 +166,11 @@ ask "what triggered the reset?"
 listen for flow_update
 respond to user.error with recovery_unit
 signal calibration_done
-output session_report
+output "session_report"
 ```
 
 ---
 
-총 키워드 수: **50개**  
-버전: **v1.5-final**  
-주석: 감정 기반 실행 언어 / 정체성 클래스 / 시적 연산 흐름 / 실행 구조 완성
+총 키워드 수: **52개**  
+버전: **v1.6-final**  
+주석: 감정 기반 실행 언어 / 정체성 클래스 / 시적 연산 흐름 / 실행 구조 / IO 인터페이스 완성
