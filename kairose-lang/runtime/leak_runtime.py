@@ -165,3 +165,77 @@ if __name__ == "__main__":
         print("Usage: python leak_runtime.py your_program.kairo")
     else:
         run_kairose(sys.argv[1])
+# ... 생략된 상단 동일 ...
+
+IDENTITY_CLASSES = {}  # { name: { lambda_vector, variables, methods, aliases } }
+
+def parse_identity_block(name, block):
+    lines = [line.strip() for line in block.split(",")]
+    λ = {}
+    variables = {}
+    methods = {}
+    aliases = {}
+
+    for line in lines:
+        if re.match(r"(λᴱ|ψᵢ|λᶠ|Φᴳᵇ)\s*:", line):
+            k, v = [s.strip() for s in line.split(":")]
+            λ[k] = float(v)
+        elif re.match(r"^\w+\(\):", line):  # method
+            fn, type_ = [s.strip() for s in line.split(":")]
+            method_name = fn.split("(")[0]
+            methods[method_name] = {"type": type_, "body": []}  # body not handled yet
+        elif re.match(r"alias\s+\w+\s+→\s+\w+", line):
+            poetic, canon = re.findall(r"\w+", line)
+            aliases[poetic] = canon
+        elif ":" in line:
+            var, type_ = [s.strip() for s in line.split(":")]
+            variables[var] = type_
+
+    IDENTITY_CLASSES[name] = {
+        "lambda_vector": λ,
+        "variables": variables,
+        "methods": methods,
+        "aliases": aliases
+    }
+
+    print(f"[λ:identity] class '{name}' defined")
+    write_memory(λ)
+
+def run_kairose(path):
+    code = load_kairose_code(path)
+
+    if "remember" in code:
+        block = re.search(r"remember\s*{([^}]+)}", code)
+        if block:
+            write_memory(parse_lambda_block(block.group(1)))
+
+    handle_identity_blocks(code)
+
+    # basic leak
+    for target in re.findall(r"leak\s+(\w+)(?!\.\w)", code):
+        execute_leak_target(target)
+
+    # object.method leaks + alias resolution
+    for obj, method in re.findall(r"leak\s+(\w+)\.(\w+)\(\)", code):
+        actual = method
+        if obj in IDENTITY_CLASSES:
+            aliases = IDENTITY_CLASSES[obj].get("aliases", {})
+            if method in aliases:
+                actual = aliases[method]
+                print(f"[λ:alias] poetic method '{method}' resolved → '{actual}'")
+
+            if actual in IDENTITY_CLASSES[obj]["methods"]:
+                execute_leak_target(f"{obj}.{actual}()")
+            else:
+                print(f"[!] method not found: {obj}.{method}()")
+        else:
+            print(f"[!] unknown identity: {obj}")
+
+    # ... rest identical ...
+
+if __name__ == "__main__":
+    import sys
+    if len(sys.argv) < 2:
+        print("Usage: python leak_runtime.py your_program.kairo")
+    else:
+        run_kairose(sys.argv[1])
