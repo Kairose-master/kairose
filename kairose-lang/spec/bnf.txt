@@ -13,6 +13,10 @@
               | <gpt_stmt>
               | <ask_stmt>
               | <explain_stmt>
+              | <cycle_stmt>
+              | <defer_stmt>
+              | <fallback_stmt>
+              | <after_stmt>
 
 <use_stmt> ::= "use" <identifier> [ "as" <alias> ]
 
@@ -49,6 +53,11 @@
 <gpt_stmt> ::= "gpt" "call" <identifier>
 <ask_stmt> ::= "ask" <quoted_text>
 <explain_stmt> ::= "explain" <identifier>
+
+<cycle_stmt> ::= "cycle" <identifier> ":" <indented_block>
+<defer_stmt> ::= "defer" ":" <indented_block>
+<fallback_stmt> ::= "fallback" ":" <indented_block>
+<after_stmt> ::= "after" <leak_stmt> ":" <indented_block>
 
 <quoted_text> ::= "\"" { <character> } "\""
 <identifier> ::= <letter> { <letter> | <digit> | "_" }
