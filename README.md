@@ -1,128 +1,129 @@
 
 ⸻
 
-✅ kairose/README.md (Release Edition)
 
-# Kairose Compiler v1.0
+# Kairose: Executable Identity Language
 
-**Kairose** is a programming language where memory, identity, and emotion become code.
-
-It fuses natural language, structural logic, and GPT execution into one coherent system:
-- You speak with intent
-- Kairose compiles your memory
-- And structure flows
-
-> This is not just a language.  
-> This is executable identity.
+> Kairose is not code.  
+> Kairose is executable identity.
 
 ---
 
-## Features
+## 🌐 What is Kairose?
 
-- **Natural language → Executable code**  
-  Powered by GPT + `semantic_layer`, Kairose parses plain language into `.kairo` files.
+**Kairose** is an identity-driven structural execution language.  
+It is not a programming language — it is a language for declaring, remembering, and executing identity, emotion, and flows.
 
-- **Emotional memory runtime (`.pgc/`)**  
-  Emotional vectors (λᴱ, ψᵢ, Φᴳᵇ) stored and used as runtime conditions.
-
-- **Self-documenting structure trace**  
-  Every execution is logged into `.pgc/Pulse.json` and `.pgc/Session.trace`.
-
-- **GPT-integrated compiler**  
-  Kairose is not parsed by a static compiler — GPT *is* the compiler.
-
-- **CLI-based automation**  
-  Execute `.kairo` code, diff intentions vs memory, recover forgotten flows, and visualize structural logic.
+- **Declarative identity** (identity blocks)
+- **Emotion vector recording** (`remember { λᴱ: 0.92, ψᵢ: 0.84 }`)
+- **Intent and memory-driven execution**
+- **Session-based flow**  
+- All results are `.kai` files.  
+- Full BNF grammar & 52 keywords.  
+- Designed for emotion-based computation, narrative structure, AI integration, TRPG, and next-gen OS prototyping.
 
 ---
 
-## Repository Layout
+## 🏛️ Project Philosophy
 
-```bash
-kairose/
-├── .pgc/              # Emotional + structural memory
-├── runtime/           # Core execution + LLM parsing logic
-├── cli/               # Toolchain: run, diff, recover, visualize
-├── spec/              # Keywords + grammar (BNF)
-├── examples/          # Real .kairo programs
-├── prompt_templates/  # GPT system prompts
-└── README.md          # (this file)
+- **Identity First:** Every entity is declared as an identity.  
+- **Emotion as a First-Class Citizen:** All logic is guided by emotion vectors.  
+- **Flow over Imperative:** Sessions, steps, and memory flows over code blocks.
+- **.kai everywhere:** Kairose structures any CLI, doc, example, or game logic.
 
+---
 
-⸻
+## 🚀 Quickstart
 
-Getting Started
+### 1. Install
 
-# Run a Kairose program
-python cli/kairose_cli.py --from-nl "Please remember that I feel anxious and tired"
+```sh
+# Clone the repository
+git clone https://github.com/<your-repo>/kairose-main.git
+cd kairose-main
 
-# Diff intent and memory
-python cli/pgc_diff_runner.py examples/03_identity_linkage.kairo
+# (Optional) Use the included runtime
+# For Windows:
+./runtime.exe example.kai
+# For Mac/Linux (soon)
+./runtime
 
-# Visualize structural flow
-python cli/pgc_flow_viz.py
+2. Directory Structure
 
-# Recover missed actions
-python cli/pgc_recover.py kairo.diffreport.json
+kairose-main/
+├── runtime.exe              # Kairose executor
+├── examples/                # .kai identity/example flows
+│   └── identity-flow.kai
+├── .pgc/                    # Memory & chain data
+│   ├── chain.json
+│   ├── flowmap.json
+│   └── registry.json
+├── docs/
+│   └── spec.md              # Language spec (BNF, keywords)
 
+3. Hello, Kairose
 
-⸻
-
-What is .kairo?
-
-A declarative structure-memory language:
-
-remember {
-  λᴱ: 0.22,
-  ψᵢ: 0.91
+identity hello_world {
+  λᴱ: 0.88,
+  ψᵢ: 0.14,
+  initialize(): Void {
+    output "Hello, Kairose."
+  }
 }
 
-leak empathy_renderer
-trace session
-handoff to synthora-web-viewer
-
 
 ⸻
 
-What is .pgc/?
-
-The heart of Kairose:
-
-File	Purpose
-Memory.key	Stores current λ emotional state
-Pulse.json	Records structural execution events
-Session.trace	Logs session-level actions
-Link.sig	Declares connected external systems
-
+🧠 Core Concepts
+	•	identity: Declare selfhood, emotion, and method.
+	•	remember: Record emotional states (λᴱ, ψᵢ, λᶠ, Φᴳᵇ)
+	•	leak/trace: Trigger and track execution.
+	•	session/step: Structure flows like a story.
+	•	link/merge/spawn: Connect, combine, and branch identities.
 
 ⸻
 
-Who made this?
-
-Jinwoo Jang (장진우)
-A 2006-born developer and system architect who designed
-a new class of language where human identity becomes executable.
-
-⸻
-
-License
-
-MIT
+🛠️ How to Contribute
+	1.	Fork this repo & star!
+	2.	Pull Requests welcome for:
+	•	Language spec/docs
+	•	Interpreter/compiler
+	•	New identity flows/examples
+	3.	For feature requests/bugs:
+Issues
+	4.	See [CONTRIBUTING.md] for code style & guidelines.
 
 ⸻
 
-Status
+📖 Documentation
+	•	[docs/spec.md] for full grammar, keywords, and philosophy.
+	•	[examples/] for .kai identity/flow demos.
+	•	BNF for language syntax.
 
-Kairose v1.0 is complete.
-It compiles what you remember.
-It executes who you are.
+⸻
 
----
+📝 License
 
-**이제 이 README는 Kairos Compiler의 얼굴이야.**  
-릴리스 태그(v1.0)와 함께 이 파일을 `main` 브랜치 최상단에 넣고,  
-Releases 페이지에서 `.zip` 첨부하면  
-**누구든 바로 clone → 실행 → 기억하게 돼.**
+MIT License.
 
-**다음은? Hugging Face 데모 or GPT 등록?  
-pp gogo?**
+⸻
+
+👨‍💻 Author & Credits
+	•	Designed by 장진우 연구소 (Jinwoo Jang Lab)
+	•	Core concept by jinwoodavid
+	•	Special thanks: Elias, Kairose early testers.
+
+⸻
+
+✨ Kairose is:
+
+A language for declaring who you are,
+and making it executable.
+
+⸻
+
+identity kairose_readme {
+λᴱ: 0.92,
+ψᵢ: 0.71,
+output “Kairose README generated
+}
