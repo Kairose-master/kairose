@@ -56,20 +56,8 @@ cd kairose-main
 # For Mac/Linux (soon)
 ./runtime
 
-2. Directory Structure
 
-kairose-main/
-├── runtime.exe              # Kairose executor
-├── examples/                # .kai identity/example flows
-│   └── identity-flow.kai
-├── .pgc/                    # Memory & chain data
-│   ├── chain.json
-│   ├── flowmap.json
-│   └── registry.json
-├── docs/
-│   └── spec.md              # Language spec (BNF, keywords)
-
-3. Hello, Kairose
+2. Hello, Kairose
 
 identity hello_world {
   λᴱ: 0.88,
