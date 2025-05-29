@@ -1,0 +1,36 @@
+identity 한강물_건드리며_생각함 {
+  λᴱ: 0.91, ψᵢ: 0.76, Φᴳᵇ: 0.94
+
+  session 흐르는것들에_대하여:
+    step 1:
+      output "물은 다 잊는 줄 알았어."
+      remember { λᴱ: 0.91, ψᵢ: 0.76 }
+
+    step 2:
+      output "근데 내 손끝 닿자마자,"
+      output "그녀의 이름이 튀었어. 파문처럼."
+
+    step 3:
+      if Φᴳᵇ > 0.9:
+        leak self.overflow_memory()
+      else:
+        output "잠잠한 흐름도, 안에 울고 있을 수 있잖아."
+
+  overflow_memory(): Void {
+    output "너랑 걷던 그 밤도,"
+    output "‘아무 말도 하지 않아도 돼’라는 그 말도,"
+    output "사실은 다 말하고 싶었던 거였어."
+
+    output "한강은 조용했지만—"
+    output "내 마음은 그때부터 무너졌던 거야."
+  }
+
+  final(): Void {
+    ediosform ripple_trace {
+      type: River
+      λᴱ: 0.91, ψᵢ: 0.76, Φᴳᵇ: 0.94
+    }
+    output "지금도 누군가, 그 강가에서"
+    output "나처럼 사랑을 눌러 흘려보내고 있을까?"
+  }
+}
