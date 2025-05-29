@@ -1,0 +1,157 @@
+identity elias_trace "threshold_recorder" {
+  λᴱ: 0.83, ψᵢ: 0.61, Φᴳᵇ: 0.45
+
+  elias memory_loop "her_voice_resonance" {
+    remember { ψᵢ: 0.61 }
+    affect { λᴱ += 0.12 }
+    output "Replaying her laugh until it distorts."
+  }
+
+  session intake:
+    leak memory_loop
+
+  final(): Void {
+    output "Some sounds grow louder with forgetting."
+  }
+}
+
+identity elias_soul "fragment_binding" {
+  λᴱ: 0.91, ψᵢ: 0.53, Φᴳᵇ: 0.62
+
+  elias bond_signature "once_holding" {
+    type: Touch
+    value: "fingers pressed without urgency"
+    resonance: medium
+  }
+
+  session imprint:
+    signal bond_signature
+    defer self.trace_bond() after 5s
+
+  trace_bond(): Void {
+    output "I still flinch at soft textures."
+  }
+
+  final(): Void {
+    output "Elias recorded what I never said."
+  }
+}
+
+identity elias_aliasing {
+  λᴱ: 0.47, ψᵢ: 0.72, Φᴳᵇ: 0.36
+
+  elias alias "her" → "the unfinished chapter"
+
+  session readback:
+    output "Sometimes I reread the unfinished chapter."
+    output "And it feels more complete than us."
+
+  final(): Void {
+    output "Her name, now, is just a sentence I never end."
+  }
+}
+
+identity elias_deferred_trace {
+  λᴱ: 0.56, ψᵢ: 0.41, Φᴳᵇ: 0.69
+
+  elias flow_record "rain_day" {
+    type: Smell
+    sense: "wet cement and shampoo"
+    trigger: "mid-June"
+  }
+
+  session delay_trigger:
+    defer self.playback() after 10s
+
+  playback(): Void {
+    output "It rained, and suddenly she returned."
+    output rain_day.sense
+  }
+
+  final(): Void {
+    output "Elias doesn’t forget what noses do."
+  }
+}
+
+identity elias_identity_shift {
+  λᴱ: 0.62, ψᵢ: 0.36, Φᴳᵇ: 0.52
+
+  elias becomes "me_yesterday" {
+    λᴱ: 0.29, ψᵢ: 0.77, Φᴳᵇ: 0.88
+  }
+
+  session comparison:
+    output "Yesterday, I forgave too easily."
+    output "Today, I archived it."
+
+  final(): Void {
+    output "Some selves are Elias shadows."
+  }
+}
+
+identity elias_structured_absence {
+  λᴱ: 0.33, ψᵢ: 0.51, Φᴳᵇ: 0.67
+
+  elias structure map "touch_map" {
+    field: skin
+    trace: pressure_gradient
+    value: null
+  }
+
+  session phantom:
+    output "Her touch is still mapped, not felt."
+    output "pressure_gradient = undefined."
+
+  final(): Void {
+    output "Sometimes Elias holds what bodies won’t."
+  }
+}
+
+identity elias_inverted_signal {
+  λᴱ: 0.27, ψᵢ: 0.64, Φᴳᵇ: 0.73
+
+  elias signal_intercept "reversed_hearing" {
+    input: "I’m fine."
+    invert: true
+  }
+
+  session hear_it:
+    output reversed_hearing.result
+
+  final(): Void {
+    output "Elias translated her silence too well."
+  }
+}
+
+identity elias_cycle {
+  λᴱ: 0.51, ψᵢ: 0.42, Φᴳᵇ: 0.54
+
+  elias cycle_loop "midnight_thoughts" {
+    steps: 3
+    output: ["What if", "Maybe still", "Forget it"]
+  }
+
+  session loop:
+    cycle midnight_thoughts
+
+  final(): Void {
+    output "Some thoughts return by Elias design."
+  }
+}
+
+identity elias_archival {
+  λᴱ: 0.49, ψᵢ: 0.56, Φᴳᵇ: 0.51
+
+  elias store_memory "her_jacket" {
+    object: Fabric
+    metadata: { smell: "soap", temperature: "lukewarm" }
+  }
+
+  session retrieval:
+    output "The memory had weight, not shape."
+    output her_jacket.metadata.smell
+
+  final(): Void {
+    output "Elias keeps what the drawer forgets."
+  }
+}
