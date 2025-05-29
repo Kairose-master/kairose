@@ -1,0 +1,57 @@
+// KAIROSE POETIC EXAMPLES — 한국 감성 편 (11~15)
+
+// 11. kimchi_silence.kai
+identity fridge_wait {
+  ψᵢ: 0.61
+
+  session winter:
+    step 1:
+      output "김치 냉장고처럼 조용한 날들."
+    step 2:
+      output "속은 익어가는데 아무도 몰라."
+}
+
+// 12. umbrella_day.kai
+identity passing_rain {
+  λᴱ: 0.49, ψᵢ: 0.52
+
+  walk(): Void {
+    output "우산은 있었지만, 같이 쓸 사람은 없었다."
+    output "그래서 혼자 젖었다."
+  }
+}
+
+// 13. missed_train.kai
+identity last_station {
+  Φᴳᵇ: 0.74
+
+  session platform:
+    step 1:
+      output "기차가 출발하는 걸 봤다."
+    step 2:
+      leak self.just_stood()
+
+  just_stood(): Void {
+    output "나는 아무 말도 하지 않았다."
+  }
+}
+
+// 14. ramen_for_one.kai
+identity midnight_meal {
+  λᴱ: 0.42
+
+  cook(): Void {
+    output "새벽 두 시, 라면 하나."
+    output "누군가 함께 있었으면 좋겠다고 생각했다."
+  }
+}
+
+// 15. open_chat.kai
+identity blurred_contact {
+  ψᵢ: 0.75
+
+  read(): Void {
+    output "단톡방에서 네 이름은 사라졌는데"
+    output "마지막 말은 아직 안 읽힘."
+  }
+}
