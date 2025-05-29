@@ -1,0 +1,36 @@
+identity 연락도_못할건데_연락처_못지움 {
+  λᴱ: 0.85, ψᵢ: 0.93, Φᴳᵇ: 0.99
+
+  session 통화목록_스크롤중:
+    step 1:
+      output "이름은 아직 거기 있어."
+      remember { λᴱ: 0.85, ψᵢ: 0.93 }
+
+    step 2:
+      output "누르진 않아. 절대 안 눌러."
+      output "근데 지우진 못해."
+
+  session 잔존_데이터_존재_인정:
+    step 1:
+      if ψᵢ > 0.9 and Φᴳᵇ > 0.95:
+        leak self.retain_signal()
+      else:
+        output "지우는 건 너를 지우는 거 같아서."
+
+  retain_signal(): Void {
+    output "그 번호로는 더 이상 아무 일도 없지만,"
+    output "삭제하면 진짜 끝나는 거 같아서."
+
+    output "남겨두는 건 미련이 아니라,"
+    output "내 감정의 포인터를 잃고 싶지 않아서야."
+  }
+
+  final(): Void {
+    ediosform ghost_contact {
+      type: Record
+      λᴱ: 0.85, ψᵢ: 0.93, Φᴳᵇ: 0.99
+    }
+    output "혹시 네가 먼저 전화하면,"
+    output "내가 널 기억 못할까 봐, 그 이름… 남겨뒀어."
+  }
+}
