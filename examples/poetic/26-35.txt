@@ -1,0 +1,163 @@
+identity leftover_sound {
+  λᴱ: 0.51, ψᵢ: 0.44, Φᴳᵇ: 0.56
+
+  session resonance:
+    match ψᵢ:
+      when > 0.6:
+        output "Your laugh still rings."
+      when < 0.3:
+        output "But I can’t recall your voice."
+      then:
+        output "Somewhere in between, I hum."
+
+  final(): Void {
+    output "Not all echoes are symmetrical."
+  }
+}
+
+identity trace_on_glass {
+  λᴱ: 0.33, ψᵢ: 0.51, Φᴳᵇ: 0.41
+
+  session winter_morning:
+    with memory as frost_trace:
+      output "You wrote my name once."
+      fade frost_trace by 0.9
+      leak self.if_held_longer()
+
+  if_held_longer(): Void {
+    output "If I had opened the window slower..."
+  }
+
+  final(): Void {
+    output "Condensation erases only the visible."
+  }
+}
+
+identity self_interrupt {
+  λᴱ: 0.78, ψᵢ: 0.37, Φᴳᵇ: 0.45
+
+  session internal_recursion:
+    step 1:
+      output "I was about to tell you."
+    step 2:
+      cycle once:
+        output "Nevermind."
+        output "Wait."
+        output "No, it’s okay."
+
+  final(): Void {
+    output "Some truths expire in their delay."
+  }
+}
+
+identity lost_frame {
+  λᴱ: 0.41, ψᵢ: 0.55, Φᴳᵇ: 0.6
+
+  session old_folder:
+    switch ψᵢ:
+      case < 0.2:
+        output "I threw it out."
+      case > 0.7:
+        output "I saved it twice."
+      default:
+        output "I kept it, but forgot where."
+
+  final(): Void {
+    output "Not all files are digital."
+  }
+}
+
+identity silent_argument {
+  λᴱ: 0.65, ψᵢ: 0.29, Φᴳᵇ: 0.78
+
+  session passive_clash:
+    step 1:
+      signal "everything's fine"
+    step 2:
+      output "But neither of us replied."
+
+  final(): Void {
+    output "The loudest fights are often unspoken."
+  }
+}
+
+identity calendar_stillness {
+  λᴱ: 0.35, ψᵢ: 0.36, Φᴳᵇ: 0.49
+
+  session time_freeze:
+    if Φᴳᵇ < 0.5:
+      output "The same calendar still hangs."
+    else:
+      defer self.replace_later() after 3 days
+
+  replace_later(): Void {
+    output "I’ll update it. Soon."
+  }
+
+  final(): Void {
+    output "Some days just stay."
+  }
+}
+
+identity almost_love {
+  λᴱ: 0.86, ψᵢ: 0.69, Φᴳᵇ: 0.52
+
+  session not_quite:
+    alias proximity → "we"
+
+    output proximity + " happened slowly, then didn’t."
+    leak proximity
+
+  final(): Void {
+    output "Almost is a type of ache."
+  }
+}
+
+identity birthday_echo {
+  λᴱ: 0.44, ψᵢ: 0.5, Φᴳᵇ: 0.47
+
+  session unmarked:
+    structure silence_memory {
+      type: MissedDate
+      recall: yearly
+    }
+
+    output "No message this year."
+
+  final(): Void {
+    output "The date still remembers you."
+  }
+}
+
+identity proximity_decay {
+  λᴱ: 0.39, ψᵢ: 0.72, Φᴳᵇ: 0.63
+
+  session slow_unpair:
+    step 1:
+      output "We stopped texting."
+    step 2:
+      defer self.ghost_gap() after 5 days
+
+  ghost_gap(): Void {
+    output "And then even the silence stopped."
+  }
+
+  final(): Void {
+    output "Some distances deepen with time."
+  }
+}
+
+identity forgiveness_loop {
+  λᴱ: 0.51, ψᵢ: 0.32, Φᴳᵇ: 0.58
+
+  session reframe:
+    cycle:
+      output "It wasn’t your fault."
+      output "Maybe mine."
+      output "No one’s."
+      break if Φᴳᵇ < 0.5
+
+  final(): Void {
+    output "Closure isn't always linear."
+  }
+}
