@@ -1,0 +1,63 @@
+// KAIROSE POETIC EXAMPLES — STRUCTURED + LYRICAL
+
+// 1. falling.kai
+identity fall_once {
+  λᴱ: 0.91, Φᴳᵇ: 0.62
+
+  session descent:
+    step 1:
+      output "It didn’t feel like falling at first."
+    step 2:
+      affect Φᴳᵇ amplify 0.2
+    step 3:
+      if Φᴳᵇ > 0.75:
+        output "But then I couldn't stop."
+}
+
+// 2. replyless.kai
+identity echo_field {
+  ψᵢ: 0.79
+
+  loop silence:
+    if ψᵢ > 0.75:
+      output "I called out."
+      output "And called again."
+      output "But nothing answered."
+}
+
+// 3. keep_still.kai
+identity quiet_core {
+  λᴱ: 0.44, ψᵢ: 0.33
+
+  still(): Void {
+    output "I chose not to move."
+    output "Maybe she'd feel it anyway."
+  }
+}
+
+// 4. backward.kai
+identity time_back {
+  λᴱ: 0.83, Φᴳᵇ: 0.59
+
+  session rewind:
+    step 1:
+      output "Can I try again?"
+    step 2:
+      leak self.erase()
+
+  erase(): Void {
+    output "I delete the last moment we met."
+    affect Φᴳᵇ diminish 0.1
+  }
+}
+
+// 5. trace_you.kai
+identity trace_love {
+  ψᵢ: 0.7
+
+  session residue:
+    step 1:
+      trace session
+    step 2:
+      output "Every memory still glows like a tag."
+}
