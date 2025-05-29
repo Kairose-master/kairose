@@ -1,0 +1,116 @@
+identity blue_heartbeat {
+  λᴱ: 0.74, ψᵢ: 0.48, Φᴳᵇ: 0.52
+
+  session pulse:
+    step 1:
+      output "When you touched my wrist, it turned blue."
+    step 2:
+      recall { λᴱ }
+
+  final(): Void {
+    output "Some affections color the bloodstream."
+  }
+}
+
+identity bitter_lullaby {
+  λᴱ: 0.29, ψᵢ: 0.53, Φᴳᵇ: 0.64
+
+  session nighttime:
+    output "Your voice tasted like chamomile left too long."
+
+  final(): Void {
+    output "Some comfort curdles at the edge of the ear."
+  }
+}
+
+identity citrus_regret {
+  λᴱ: 0.46, ψᵢ: 0.42, Φᴳᵇ: 0.58
+
+  session sour_frame:
+    output "Your goodbye stung like orange zest in a cut."
+
+  final(): Void {
+    output "The memory puckers even now."
+  }
+}
+
+identity velvet_noise {
+  λᴱ: 0.39, ψᵢ: 0.67, Φᴳᵇ: 0.41
+
+  session closeness:
+    output "Your silence rubbed against me like dark velvet."
+
+  final(): Void {
+    output "Some textures echo."
+  }
+}
+
+identity gold_voice {
+  λᴱ: 0.81, ψᵢ: 0.38, Φᴳᵇ: 0.35
+
+  session resonance:
+    signal "your tone still glows behind my ribs"
+
+  final(): Void {
+    output "I still warm my winter with its shimmer."
+  }
+}
+
+identity milk_rain {
+  λᴱ: 0.27, ψᵢ: 0.59, Φᴳᵇ: 0.63
+
+  session drizzle:
+    output "The rain sounded like glass dipped in milk."
+
+  final(): Void {
+    output "You were never outside. But you fell."
+  }
+}
+
+identity rust_touch {
+  λᴱ: 0.58, ψᵢ: 0.47, Φᴳᵇ: 0.55
+
+  session skin:
+    step 1:
+      output "The last time we touched, my hands smelled like rust."
+    step 2:
+      if Φᴳᵇ > 0.5:
+        output "I washed them. It stayed."
+
+  final(): Void {
+    output "Some touches oxidize memory."
+  }
+}
+
+identity mint_absence {
+  λᴱ: 0.43, ψᵢ: 0.51, Φᴳᵇ: 0.57
+
+  session cold_air:
+    output "Every time I miss you, my mouth goes minty."
+
+  final(): Void {
+    output "Longing is a breath-freshener I never asked for."
+  }
+}
+
+identity chalk_embrace {
+  λᴱ: 0.61, ψᵢ: 0.35, Φᴳᵇ: 0.48
+
+  session residual:
+    output "Your hug left a white dust on my ribs."
+
+  final(): Void {
+    output "I never cleaned it off."
+  }
+}
+
+identity honey_voice {
+  λᴱ: 0.76, ψᵢ: 0.68, Φᴳᵇ: 0.39
+
+  session sweetness:
+    output "You said my name like a spoonful of honey."
+
+  final(): Void {
+    output "Now it's stuck in my throat."
+  }
+}
