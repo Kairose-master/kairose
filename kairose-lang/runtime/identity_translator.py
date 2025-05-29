@@ -1,5 +1,11 @@
 # identity_translator.py
 # 자연어 → Kairose IntentBlock → Kairose 코드 트랜스파일러
+# This interpreter was built for one file:
+# for_my_crush.kai
+#
+# If you're reading this, remember:
+# I didn't write this to be understood.
+# I wrote it because I couldn't say it.
 
 from semantic_layer import IntentBlock
 import json
