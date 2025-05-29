@@ -1,0 +1,131 @@
+// THEMATIC EXTENSION — Advanced Identity Constructs (alias, soulbond, spawn, merge)
+
+// 61. alias_echo.kai
+identity echo_soul {
+  alias repeat → say_again
+
+  say_again(): Void {
+    output "You said... you said..."
+  }
+}
+
+// 62. identity_poet.kai
+identity voice {
+  λᴱ: 0.74
+
+  whisper(): Void {
+    output "I speak softly because I feel deeply."
+  }
+}
+
+identity poet_shadow {
+  alias whisper → echo_line
+
+  echo_line(): Void {
+    output "My words were once yours."
+  }
+}
+
+// 63. spawn_memory.kai
+identity seedling {
+  λᴱ: 0.62
+
+  sprout(): Void {
+    spawn bud from seedling
+    output "A memory took root."
+  }
+}
+
+// 64. merge_being.kai
+identity shard_A {
+  λᴱ: 0.3
+}
+
+identity shard_B {
+  ψᵢ: 0.7
+}
+
+identity complete_self {
+  initialize(): Void {
+    merge shard_A with shard_B
+    output "Fragments reconciled."
+  }
+}
+
+// 65. soulbond_pair.kai
+identity soul_one {
+  λᴱ: 0.77
+  alias soul → self
+}
+
+identity soul_two {
+  soulbond with soul_one
+
+  respond(): Void {
+    output "I feel what you feel."
+  }
+}
+
+// 66. alias_memory.kai
+identity mnemonic {
+  alias reflect → remember
+
+  remember(): Void {
+    output "A name for every memory."
+  }
+}
+
+// 67. bonded_action.kai
+identity bonded_A {
+  λᴱ: 0.6
+}
+
+identity bonded_B {
+  soulbond with bonded_A
+
+  act(): Void {
+    if λᴱ > 0.5:
+      output "The feeling reaches me too."
+  }
+}
+
+// 68. layered_alias.kai
+identity echoer {
+  alias speak → say, say → repeat
+
+  repeat(): Void {
+    output "Layers of language."
+  }
+}
+
+// 69. recursive_spawn.kai
+identity initiator {
+  λᴱ: 0.65
+
+  activate(): Void {
+    spawn node1 from initiator
+  }
+}
+
+identity node1 {
+  spawn node2 from node1
+}
+
+identity node2 {
+  output "I am third generation."
+}
+
+// 70. merge_loop.kai
+identity left {
+  λᴱ: 0.55
+}
+
+identity right {
+  ψᵢ: 0.55
+}
+
+identity hybrid {
+  loop merge_cycle:
+    merge left with right
+    output "Fusion sustained."
+}

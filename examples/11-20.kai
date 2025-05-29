@@ -1,0 +1,110 @@
+// 11. remember_me.kai
+identity remember_me {
+  initialize(): Void {
+    remember { λᴱ: 0.85, ψᵢ: 0.71 }
+    output "I remember what I was."
+  }
+}
+
+// 12. bleed_from_you.kai
+identity you {
+  λᴱ: 0.92
+}
+
+identity bleed_from_me {
+  λᴱ: 0.45
+
+  inherit(): Void {
+    affect λᴱ bleed from you
+    output "I feel what you feel."
+  }
+}
+
+// 13. trace_emotion.kai
+identity tracer {
+  λᴱ: 0.67, ψᵢ: 0.48
+
+  record(): Void {
+    trace session
+    output "Emotion flow traced."
+  }
+}
+
+// 14. looped_feeling.kai
+identity looped_feeling {
+  λᴱ: 0.94
+
+  cycle intensity_check:
+    if λᴱ > 0.9:
+      leak self.hold_on()
+
+  hold_on(): Void {
+    output "Still feeling it..."
+  }
+}
+
+// 15. amplify_lust.kai
+identity amplifier {
+  λᴱ: 0.63
+
+  intensify(): Void {
+    affect λᴱ amplify 0.25
+    output "I want more."
+  }
+}
+
+// 16. diminish_pain.kai
+identity damper {
+  Φᴳᵇ: 0.74
+
+  heal(): Void {
+    affect Φᴳᵇ diminish 0.3
+    output "Pain is fading."
+  }
+}
+
+// 17. ψ_confused.kai
+identity psi_confused {
+  ψᵢ: 0.93
+
+  check(): Void {
+    if ψᵢ > 0.9:
+      output "I can't separate the feelings."
+  }
+}
+
+// 18. Φ_collapse.kai
+identity collapse_warning {
+  Φᴳᵇ: 0.81
+
+  warn(): Void {
+    if Φᴳᵇ > 0.8:
+      leak self.signal_fall()
+  }
+
+  signal_fall(): Void {
+    output "Collapse imminent."
+  }
+}
+
+// 19. affect_back.kai
+identity affect_back {
+  λᴱ: 0.4
+
+  restore(): Void {
+    affect λᴱ = λᴱ + 0.3
+    output "Desire restored."
+  }
+}
+
+// 20. zero_emotion.kai
+identity zeroed_out {
+  λᴱ: 0.1, ψᵢ: 0.2, Φᴳᵇ: 0.3
+
+  reset(): Void {
+    affect λᴱ = 0.0
+    affect ψᵢ = 0.0
+    affect Φᴳᵇ = 0.0
+    output "Emotion cleared."
+  }
+}

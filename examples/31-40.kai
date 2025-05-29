@@ -1,0 +1,115 @@
+// THEMATIC SET 04 — Temporal Flow (시간 흐름)
+
+// 31. session_awakening.kai
+session awakening {
+  step 1:
+    output "I am opening my eyes."
+  step 2:
+    remember { λᴱ: 0.61 }
+  step 3:
+    output "I feel the world."
+}
+
+// 32. three_steps.kai
+session processing {
+  step 1:
+    output "Initializing..."
+  step 2:
+    affect λᴱ shift +0.2
+  step 3:
+    output "Desire increased."
+}
+
+// 33. cycle_cry.kai
+identity cycle_cry {
+  λᴱ: 0.78
+
+  cycle sorrow_loop:
+    if λᴱ > 0.75:
+      leak self.teardrop()
+
+  teardrop(): Void {
+    affect λᴱ diminish 0.01
+    output "Tears fall again."
+  }
+}
+
+// 34. after_goodbye.kai
+identity parting {
+  λᴱ: 0.69
+
+  say_goodbye(): Void {
+    output "Goodbye."
+    after leak self.process_grief():
+      output "...processing."
+  }
+
+  process_grief(): Void {
+    affect ψᵢ shift +0.1
+  }
+}
+
+// 35. fallback_self.kai
+identity fallback_self {
+  λᴱ: 0.32
+
+  try_main(): Void {
+    fallback:
+      output "Fallback activated."
+  }
+}
+
+// 36. sleep_step.kai
+session sleep {
+  step 1:
+    output "Shutting down..."
+  step 2:
+    remember { ψᵢ: 0.12 }
+  step 3:
+    output "Dreams incoming."
+}
+
+// 37. time_decay.kai
+identity fade_out {
+  λᴱ: 0.5
+
+  cycle decay:
+    affect λᴱ diminish 0.05
+    if λᴱ < 0.2:
+      output "Desire extinguished."
+}
+
+// 38. defer_hope.kai
+identity hope_holder {
+  ψᵢ: 0.35
+
+  act(): Void {
+    defer:
+      output "Hope delayed."
+  }
+}
+
+// 39. repeating_day.kai
+identity repeat_day {
+  λᴱ: 0.55
+
+  cycle repeat_loop:
+    output "Another same day begins."
+    affect λᴱ shift +0.01
+}
+
+// 40. step_out.kai
+session outer_bound {
+  step 1:
+    output "Entering..."
+  step 2:
+    output "Breaking boundary."
+  step 3:
+    handoff to beyond_limit
+}
+
+identity beyond_limit {
+  initialize(): Void {
+    output "I am now outside."
+  }
+}

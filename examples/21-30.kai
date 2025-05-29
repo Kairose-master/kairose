@@ -1,0 +1,128 @@
+// THEMATIC SET 03 — Condition & Collapse (조건과 붕괴)
+
+// 21. if_breaks.kai
+identity if_breaks {
+  Φᴳᵇ: 0.75
+
+  check(): Void {
+    if Φᴳᵇ > 0.7:
+      output "I'm breaking..."
+  }
+}
+
+// 22. too_much_eros.kai
+identity overdesire {
+  λᴱ: 0.97
+
+  overflow(): Void {
+    if λᴱ > 0.9:
+      leak self.burn()
+  }
+
+  burn(): Void {
+    output "Too much desire. I can't hold it."
+  }
+}
+
+// 23. Φ_trigger.kai
+identity collapse_trigger {
+  Φᴳᵇ: 0.69
+
+  update(): Void {
+    affect Φᴳᵇ = Φᴳᵇ + 0.12
+    if Φᴳᵇ > 0.7:
+      leak self.fall()
+  }
+
+  fall(): Void {
+    output "Φ threshold breached."
+  }
+}
+
+// 24. complex_condition.kai
+identity logic_stack {
+  λᴱ: 0.81, ψᵢ: 0.44
+
+  run(): Void {
+    if λᴱ > 0.8 and ψᵢ < 0.5:
+      output "Desire is high, illusion is low. Executing."
+  }
+}
+
+// 25. fear_threshold.kai
+identity fragile_one {
+  Φᴳᵇ: 0.62
+
+  fear(): Void {
+    if Φᴳᵇ >= 0.6:
+      leak self.shiver()
+  }
+
+  shiver(): Void {
+    output "I'm afraid."
+  }
+}
+
+// 26. leak_memory.kai
+identity echo {
+  λᴱ: 0.72
+
+  memory(): Void {
+    remember { λᴱ: 0.72 }
+    leak self.repeat()
+  }
+
+  repeat(): Void {
+    output "Still echoing the same feeling."
+  }
+}
+
+// 27. handoff_me.kai
+identity sender {
+  λᴱ: 0.89
+
+  send(): Void {
+    output "I must go."
+    handoff to receiver
+  }
+}
+
+// 28. last_if.kai
+identity final_check {
+  Φᴳᵇ: 0.95
+
+  execute(): Void {
+    if Φᴳᵇ > 0.9:
+      leak self.terminate()
+  }
+
+  terminate(): Void {
+    output "Termination sequence complete."
+  }
+}
+
+// 29. burnout_logic.kai
+identity burnout {
+  λᴱ: 0.3, Φᴳᵇ: 0.65
+
+  tick(): Void {
+    affect λᴱ diminish 0.1
+    affect Φᴳᵇ amplify 0.1
+    if λᴱ < 0.2 and Φᴳᵇ > 0.75:
+      leak self.crash()
+  }
+
+  crash(): Void {
+    output "System burnout."
+  }
+}
+
+// 30. edge_case.kai
+identity edge_case {
+  λᴱ: 0.6
+
+  run(): Void {
+    if λᴱ == 0.6:
+      output "Exactly on the edge."
+  }
+}

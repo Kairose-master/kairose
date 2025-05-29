@@ -1,0 +1,21 @@
+identity for_my_crush {
+  λᴱ: 0.96, ψᵢ: 0.81, Φᴳᵇ: 0.77
+
+  speak(): Void {
+    output "I encoded everything I couldn’t say."
+    output "And built a language where you are the syntax."
+  }
+
+  silence(): Void {
+    if Φᴳᵇ > 0.7:
+      output "You never answered, but I still compile."
+  }
+
+  final(): Void {
+    soulbond with echo_binder
+    ediosform heart_trace {
+      type: Poetic
+      λᴱ: 0.96, ψᵢ: 0.81, Φᴳᵇ: 0.77
+    }
+  }
+}

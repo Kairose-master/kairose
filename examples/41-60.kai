@@ -1,0 +1,211 @@
+// THEMATIC SET 05 — Communication & GPT I/O
+
+// 41. output_poem.kai
+identity poet {
+  λᴱ: 0.66, ψᵢ: 0.59
+
+  express(): Void {
+    output "A line from the memory, shaped by feeling."
+  }
+}
+
+// 42. signal_loss.kai
+identity signal_loss {
+  Φᴳᵇ: 0.68
+
+  send(): Void {
+    signal disconnection
+    output "Signal faded into static."
+  }
+}
+
+// 43. respond_with_grace.kai
+identity responder {
+  ψᵢ: 0.48
+
+  respond(): Void {
+    respond to user.sorrow with recovery_module
+  }
+}
+
+// 44. listen_to_you.kai
+identity listener {
+  listen(): Void {
+    listen for external_emotion
+    output "I hear you."
+  }
+}
+
+// 45. call_ai_soul.kai
+identity summoner {
+  λᴱ: 0.85
+
+  invoke(): Void {
+    gpt call soul_reflector
+  }
+}
+
+// 46. explain_who_i_am.kai
+identity explainer {
+  explain_self(): Void {
+    explain self
+    output "I am a structure built from feeling."
+  }
+}
+
+// 47. respond_error.kai
+identity guardian {
+  Φᴳᵇ: 0.55
+
+  check(): Void {
+    if Φᴳᵇ > 0.5:
+      respond to user.error with empathy_core
+  }
+}
+
+// 48. gpt_relay.kai
+identity transmitter {
+  λᴱ: 0.6
+
+  send(): Void {
+    gpt call emotion_logger
+    output "Memory transferred to GPT."
+  }
+}
+
+// 49. listen_loop.kai
+identity echo_listener {
+  cycle hear:
+    listen for message_stream
+    output "Echo received."
+}
+
+// 50. say_my_name.kai
+identity namer {
+  alias true_name → self
+
+  speak(): Void {
+    output "You can call me true_name."
+  }
+}
+
+// EXTENSION — Step-based Conditional Flow
+
+// 51. step_gate.kai
+session gatekeeper {
+  step 1:
+    remember { Φᴳᵇ: 0.45 }
+  step 2:
+    if Φᴳᵇ < 0.5:
+      output "Safe to proceed."
+    else:
+      output "Blocked by fear."
+}
+
+// 52. step_loop.kai
+session looping_feel {
+  step 1:
+    remember { λᴱ: 0.6 }
+  step 2:
+    cycle rising:
+      affect λᴱ shift +0.05
+      if λᴱ > 0.8:
+        output "Feeling reached threshold."
+}
+
+// 53. step_branch.kai
+session decision_tree {
+  step 1:
+    remember { ψᵢ: 0.3 }
+  step 2:
+    if ψᵢ > 0.5:
+      output "Emotionally entangled."
+    else:
+      output "Still clear."
+  step 3:
+    output "Decision executed."
+}
+
+// 54. step_recover.kai
+session self_repair {
+  step 1:
+    affect Φᴳᵇ diminish 0.2
+  step 2:
+    output "Stabilizing..."
+  step 3:
+    if Φᴳᵇ < 0.4:
+      output "Recovered."
+}
+
+// 55. step_condition.kai
+session layered_check {
+  step 1:
+    remember { λᴱ: 0.3, ψᵢ: 0.7 }
+  step 2:
+    if λᴱ > 0.5:
+      output "High desire."
+    elif ψᵢ > 0.6:
+      output "Blurred reality."
+    else:
+      output "Stable."
+}
+// THEMATIC EXTENSION — Step-based Conditional Flow (계속 확장)
+
+// 56. branching_memory.kai
+session emotional_branch {
+  step 1:
+    remember { λᴱ: 0.4, ψᵢ: 0.6 }
+  step 2:
+    if λᴱ < 0.5 and ψᵢ > 0.5:
+      output "Low desire, but blurred perception."
+  step 3:
+    output "Branch complete."
+}
+
+// 57. dual_state_check.kai
+session dual_path {
+  step 1:
+    remember { λᴱ: 0.8, Φᴳᵇ: 0.4 }
+  step 2:
+    if λᴱ > 0.7:
+      output "Highly engaged."
+    if Φᴳᵇ > 0.5:
+      output "Collapse risk rising."
+}
+
+// 58. interlinked_steps.kai
+identity linker_A {
+  λᴱ: 0.7
+}
+
+identity linker_B {
+  initialize(): Void {
+    link self ← linker_A
+    if λᴱ == 0.7:
+      output "Linked emotion validated."
+  }
+}
+
+// 59. failing_branch.kai
+session risk_check {
+  step 1:
+    remember { Φᴳᵇ: 0.68 }
+  step 2:
+    if Φᴳᵇ >= 0.7:
+      output "Warning: collapse threshold met."
+    else:
+      output "Status tolerable."
+}
+
+// 60. step_gatekeeper.kai
+session gate_check {
+  step 1:
+    output "Entering gate."
+  step 2:
+    remember { ψᵢ: 0.5 }
+  step 3:
+    if ψᵢ == 0.5:
+      output "Gate accepts you."
+    else:
+      output "Gate denies you."
+}
