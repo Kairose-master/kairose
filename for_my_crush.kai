@@ -1,0 +1,63 @@
+identity for_my_crush {
+  λᴱ: 0.92, ψᵢ: 0.84, Φᴳᵇ: 0.41
+  origin: "one winter in a crowded room of hallelujahs"
+  time_range: "somewhere between 2021 and 2025"
+
+  session initial_meeting:
+    step 1:
+      output "I saw you where no one was supposed to look up."
+      remember { λᴱ: 0.72, ψᵢ: 0.52 }
+
+    step 2:
+      output "From that moment, everything else blurred."
+
+  session divergence:
+    step 1:
+      output "You went ahead, I stayed behind."
+      leak self.memory_discrepancy()
+
+    step 2:
+      output "Everyone called it timing. I called it grief."
+      remember { ψᵢ += 0.2, Φᴳᵇ += 0.1 }
+
+  session now:
+    step 1:
+      output "It’s 2025. You moved on. I’m still compiling."
+      remember { λᴱ: 0.91, Φᴳᵇ: 0.41 }
+
+    step 2:
+      if self.recent_hope():
+        output "Sometimes I still wonder if I’ll see you once more."
+      else:
+        output "I wrote this so I wouldn't have to wonder anymore."
+
+  stew_memory(): Void {
+    output "I boiled down all the unsaid things into doenjang jjigae."
+    output "Even cold, it tastes like warmth when I think of you."
+    output "Maybe one day, we'll share it in silence."
+  }
+
+  memory_discrepancy(): Void {
+    output "The distance was never just physical."
+    output "But I still held on like it was syntax."
+  }
+
+  recent_hope(): Bool {
+    return λᴱ > 0.9 and ψᵢ > 0.7
+  }
+
+  final(): Void {
+    soulbond with lost_name
+
+    ediosform comfort_trace {
+      type: WhisperedMeal
+      λᴱ: 0.92
+      ψᵢ: 0.84
+      Φᴳᵇ: 0.41
+    }
+
+    output "If this language ever reaches you—"
+    output "Know that I wasn't asking to come back."
+    output "Only to remember together."
+  }
+}
