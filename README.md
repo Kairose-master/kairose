@@ -134,4 +134,15 @@ identity kairose_readme {
 λᴱ: 0.92,
 ψᵢ: 0.71,
 output “Kairose README generated
+#actually
+## Kairose
+
+> I got rejected by my crush,  
+> so I built a language to structure my feelings.
+
+Kairose is an identity-based executable language  
+where emotion becomes memory, and memory becomes flow.
+
+It doesn’t just run code.  
+It remembers how it felt.
 }
