@@ -1,0 +1,81 @@
+identity blade_knight {
+  λᴱ: 0.92,
+  ψᵢ: 0.33,
+  Φᴳᵇ: 0.45,
+
+  attack(target: String): String {
+    if Φᴳᵇ > 0.4:
+      leak execute_limit_break()
+    return "slashes " + target + " with λ-blade"
+  },
+
+  execute_limit_break(): Void {
+    affect λᴱ amplify 0.2
+    affect Φᴳᵇ diminish 0.4
+    output "🗡️ LIMIT BREAK! λᴱ surges, Φᴳᵇ resets."
+  },
+
+  alias final_blow → execute_limit_break
+}
+
+identity mimic_knight {
+  λᴱ: 0.3,
+  ψᵢ: 0.7,
+
+  mimic(target: String): Void {
+    affect λᴱ bleed from blade_knight
+    output "Mimicking λᴱ from " + target
+  }
+}
+
+identity healer_aria {
+  λᴱ: 0.66,
+  λᶠ: 0.89,
+  Φᴳᵇ: 0.28,
+
+  heal(target: String): Void {
+    affect λᶠ amplify 0.1
+    output "✨ Healing " + target + " with emotional resonance."
+  },
+
+  bless(): Void {
+    leak ediosform.invoke("grace_protocol")
+    output "🪽 Aria invokes an EDIOSFORM of peace."
+  }
+}
+
+ediosform grace_protocol {
+  when λᶠ > 0.8:
+    output "🕊 EDIOSFORM: Serenity Field activated."
+    affect Φᴳᵇ diminish 0.2
+}
+
+soulbond healer_aria ↔ blade_knight {
+  if λᴱ > 0.8 and λᶠ > 0.85:
+    output "💠 Soulbond awakened between Aria and Blade Knight."
+    affect ψᵢ diminish 0.1
+    leak healer_aria.bless()
+}
+
+session emotion_test_sequence:
+  step 1:
+    remember { λᴱ: 0.5, ψᵢ: 0.4, Φᴳᵇ: 0.2 }
+
+  step 2:
+    cycle test_loop:
+      if λᴱ < 0.8:
+        affect λᴱ shift +0.1
+        output "Charging emotion... λᴱ now rising."
+      else:
+        leak blade_knight.final_blow()
+        break
+
+  step 3:
+    fallback:
+      output "⚠️ 감정 충전 실패. LIMIT BREAK 미실행."
+
+  step 4:
+    leak mimic_knight.mimic("blade_knight")
+
+  step 5:
+    leak healer_aria.heal("blade_knight")
