@@ -1,0 +1,187 @@
+identity silence_memory {
+  λᴱ: 0.22, ψᵢ: 0.51, Φᴳᵇ: 0.64
+
+  session fading_echo:
+    step 1:
+      output "Not all feelings need to be loud."
+
+    step 2:
+      if ψᵢ > 0.5:
+        output "Some stay in the room long after you've left."
+
+    step 3:
+      trace self.vanish()
+
+  vanish(): Void {
+    output "I stayed. But so did the silence."
+  }
+
+  final(): Void {
+    ediosform resonance_trace {
+      type: Absence
+      λᴱ: 0.22, ψᵢ: 0.51, Φᴳᵇ: 0.64
+    }
+    output "The echo was always me."
+  }
+}
+
+identity paused_confession {
+  λᴱ: 0.71, ψᵢ: 0.36, Φᴳᵇ: 0.42
+
+  session almost:
+    step 1:
+      output "I nearly said it."
+
+    step 2:
+      defer self.replay() after 3s
+
+  replay(): Void {
+    output "But I paused. And that became permanent."
+  }
+
+  final(): Void {
+    output "Some truths are remembered best when never spoken."
+  }
+}
+
+identity dusk_table {
+  λᴱ: 0.58, ψᵢ: 0.62, Φᴳᵇ: 0.37
+
+  session slow_evening:
+    step 1:
+      output "Two cups. One untouched."
+
+    step 2:
+      output "Warmth lingers longer than people."
+
+    step 3:
+      recall { ψᵢ }
+
+  final(): Void {
+    ediosform shared_absence {
+      type: Table
+    }
+    output "The chair across from me never forgets."
+  }
+}
+
+identity unsent_message {
+  λᴱ: 0.66, ψᵢ: 0.28, Φᴳᵇ: 0.54
+
+  session draft:
+    step 1:
+      output "Hey. Just wanted to say—"
+
+    step 2:
+      defer self.delete() after 2s
+
+  delete(): Void {
+    output "...never mind."
+  }
+
+  final(): Void {
+    output "Some messages are sent by being left unsent."
+  }
+}
+
+identity rain_window {
+  λᴱ: 0.31, ψᵢ: 0.49, Φᴳᵇ: 0.58
+
+  session dripping:
+    step 1:
+      output "You didn’t text back."
+
+    step 2:
+      if Φᴳᵇ > 0.5:
+        output "So the rain did."
+
+  final(): Void {
+    output "Silence has a way of finding its own words."
+  }
+}
+
+identity chair_memory {
+  λᴱ: 0.43, ψᵢ: 0.42, Φᴳᵇ: 0.39
+
+  session leftover:
+    step 1:
+      output "I don't sit in your chair anymore."
+
+    step 2:
+      if ψᵢ < 0.5:
+        output "But I still remember the shape it held."
+
+  final(): Void {
+    output "Some furniture holds more memory than wood."
+  }
+}
+
+identity undone_goodbye {
+  λᴱ: 0.75, ψᵢ: 0.41, Φᴳᵇ: 0.67
+
+  session sudden_exit:
+    step 1:
+      output "You said goodbye."
+
+    step 2:
+      output "But you didn't mean to."
+
+  final(): Void {
+    ediosform unintended_parting {
+      type: Word
+    }
+    output "Some departures are accidents left in sentences."
+  }
+}
+
+identity birthday_passing {
+  λᴱ: 0.35, ψᵢ: 0.57, Φᴳᵇ: 0.52
+
+  session date_check:
+    step 1:
+      output "I remembered your birthday."
+
+    step 2:
+      leak self.not_texting()
+
+  not_texting(): Void {
+    output "I let it pass. Again."
+  }
+
+  final(): Void {
+    output "Some days are heavier by not saying anything."
+  }
+}
+
+identity mutual_haunt {
+  λᴱ: 0.69, ψᵢ: 0.64, Φᴳᵇ: 0.59
+
+  session reflection:
+    step 1:
+      output "I still think of you at night."
+
+    step 2:
+      output "You probably do too."
+
+  final(): Void {
+    output "Some hauntings are mutual."
+  }
+}
+
+identity forgone_outcome {
+  λᴱ: 0.47, ψᵢ: 0.33, Φᴳᵇ: 0.61
+
+  session what_if:
+    step 1:
+      output "I played it out."
+
+    step 2:
+      output "We would’ve held hands in silence."
+
+    step 3:
+      output "That would’ve been enough."
+
+  final(): Void {
+    output "Some stories don’t need to happen to be real."
+  }
+}
