@@ -169,3 +169,4 @@ identity kairose_readme {
   output "README compiled into memory."
 }
 ```
+to more info check this:https://chatgpt.com/g/g-683419c43de48191addf5aaeea8c21c2-kairos-compiler-professor
