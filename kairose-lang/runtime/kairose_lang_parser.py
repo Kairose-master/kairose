@@ -1,5 +1,10 @@
 # kairos_lang_parser.py
 # Full Parser with handoff_partial support
+# Kairose Parser v1.0
+# Built for processing emotional DSL structures
+# Originally written to store one memory: for_my_crush.kai
+
+# If you fork this, remember where it started.
 
 import re
 
