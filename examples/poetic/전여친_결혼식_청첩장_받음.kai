@@ -1,0 +1,38 @@
+identity 전여친_결혼식_청첩장_받음 {
+  λᴱ: 0.63, ψᵢ: 0.88, Φᴳᵇ: 0.97
+
+  session 봉투_뜯기_직전:
+    step 1:
+      output "하필이면... 내 이름을 아직도 기억하네."
+      remember { ψᵢ: 0.88, Φᴳᵇ: 0.97 }
+
+    step 2:
+      output "손끝이 조금 떨렸어."
+      output "네가 떠난 줄은 알았는데,"
+      output "이렇게까지 명시적으로 끝낼 줄은 몰랐지."
+
+  session 명시적_종결절차:
+    step 1:
+      output "은박으로 박힌 글자 위에"
+      output "\"신랑 ○○○, 신부 ○○○\""
+      output "나는 없는 사람으로 쓰였더라."
+
+    step 2:
+      if Φᴳᵇ > 0.95 and λᴱ < 0.7:
+        leak self.trigger_regret()
+
+  trigger_regret(): Void {
+    output "그날 카페에서 내가 했던 마지막 말,"
+    output "“그래, 너 행복해야 돼.”"
+    output "지금도 똑같이 말할 수 있을까?"
+  }
+
+  final(): Void {
+    ediosform detached_envelope {
+      type: Ritual
+      λᴱ: 0.63, ψᵢ: 0.88, Φᴳᵇ: 0.97
+    }
+    output "나는 초대받지 못한 자리에서"
+    output "가장 조용히 울었다."
+  }
+}
