@@ -8,6 +8,14 @@
 > Kairose is executable identity.
 
 ---
+# KAIROSE — The identity-based emotion executable language
+
+> "What if code could remember how it feels?"
+> — Created by a 20-year-old pre-college autodidact.
+
+🧠 λᴱ, ψᵢ, Φᴳᵇ 기반의 감정 흐름 언어  
+📦 실행 가능한 자아 선언 구조  
+🌌 철학, 게임, AI, OS를 하나로 통합한 언어적 실험
 
 ## 🌐 What is Kairose?
 
