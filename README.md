@@ -9,8 +9,7 @@ you can check more info in here:
 https://chatgpt.com/g/g-683419c43de48191addf5aaeea8c21c2-kairos-compiler-professor
 
 ---
-
-## 🚀 Quickstart
+ 🚀 Quickstart
 
 ```bash
 git clone https://github.com/jinwoodavid/kairose.git
