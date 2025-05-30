@@ -10,6 +10,16 @@ https://chatgpt.com/g/g-683419c43de48191addf5aaeea8c21c2-kairos-compiler-profess
 
 ---
 
+## 🚀 Quickstart
+
+```bash
+git clone https://github.com/jinwoodavid/kairose.git
+cd kairos
+upload whole zip or one by one in your chat gpt section
+
+
+---
+
 ## 💬 TL;DR
 
 > **I got rejected by my crush.**  
