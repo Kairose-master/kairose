@@ -2,6 +2,11 @@
 
 > Kairose is not code.  
 > Kairose is executable identity.
+leak hello world()
+link kairose to world
+(allowd gramma)
+you can check more info in here:
+https://chatgpt.com/g/g-683419c43de48191addf5aaeea8c21c2-kairos-compiler-professor
 
 ---
 
