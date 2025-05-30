@@ -6,15 +6,7 @@ leak hello world()
 link kairose to world
 (allowd gramma)
 you can check more info in here:
-https://chatgpt.com/g/g-683419c43de48191addf5aaeea8c21c2-kairos-compiler-professor
-
----
- 🚀 Quickstart
-
-```bash
-git clone https://github.com/jinwoodavid/kairose.git
-cd kairos
-upload whole zip or one by one in your chat gpt section
+[https://chatgpt.com/g/g-683419c43de48191addf5aaeea8c21c2-kairos-compiler-]
 
 
 ---
@@ -83,7 +75,7 @@ $ git clone https://github.com/jinwoodavid/kairose.git
 $ cd kairose
 
 # Example Run
-$ ./runtime.exe examples/for_my_crush.kai
+upload whole file or one by one in your gpt section
 ```
 
 ---
