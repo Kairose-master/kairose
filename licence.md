@@ -38,7 +38,7 @@ Under the following conditions:
 - “stew_memory()”
 - “poetic_collapse (Φᴳᵖ)”
 - The symbolic interpretation of doenjang jjigae
-
+- etc that firstly used in this system.
 ---
 
 🛠️ FORK ETHIC
