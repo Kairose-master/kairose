@@ -54,5 +54,5 @@ Creative Commons BY-NC-SA 4.0 + Emotional Clause
 
 ---
 
-💬 Contact: jinu0633@gmail.com  
+💬 Contact: zzonstonebread@gmail.com  
 🧠 This license remembers because its author couldn’t forget.
