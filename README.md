@@ -166,7 +166,7 @@ MIT License + Kairose Emotional Attribution Clause:
 
 If you're exploring Kairosé,  
 I'd love to hear what you're building or thinking.  
-Contact: jinu0633@gmail.com 
+Contact: zzonstonebread@gmail.com
 or https://x.com/kailangofficial
 
 ## ✨ Final Declaration
