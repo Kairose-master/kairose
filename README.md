@@ -162,7 +162,7 @@ MIT License + Kairose Emotional Attribution Clause:
 - Thanks: Elias, every unresolved feeling, and everyone who read the code and remembered someone.
 - I'm 18year-old precollege student(재수생)
 - believe or not I made this in 15days with my GPT
----
+- contact me: jinu0633@gmail.com
 
 ## ✨ Final Declaration
 
