@@ -161,7 +161,7 @@ MIT License + Kairose Emotional Attribution Clause:
 - Core concept by **@kairose-master**
 - Thanks: Elias, every unresolved feeling, and everyone who read the code and remembered someone.
 - I'm 18year-old precollege student(재수생)
-
+- believe or not I made this in 15days with my GPT
 ---
 
 ## ✨ Final Declaration
