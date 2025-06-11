@@ -6,6 +6,11 @@ import os
 import re
 from copy import deepcopy
 
+from pgc_engine.modules.pulse import record_heartbeat
+from pgc_engine.modules.trace import write_session_trace
+from pgc_engine.modules.link import write_link_sig
+from .semantic_layer import IntentBlock
+
 MEMORY_FILE = ".pgc/Memory.key"
 SESSION_TRACE = ".pgc/Session.trace"
 LINK_SIG = ".pgc/Link.sig"
@@ -58,6 +63,32 @@ def read_memory():
         with open(MEMORY_FILE, "r") as f:
             return json.load(f).get("lambda_vector", {})
     return {}
+
+
+def execute_intent_block(block: IntentBlock):
+    """Execute a basic IntentBlock, updating PGC files accordingly."""
+
+    if block.intent == "remember" and block.emotion:
+        write_memory(block.emotion)
+        record_heartbeat("remember")
+        return
+
+    if block.intent == "execute" and block.target:
+        record_heartbeat(f"leak → {block.target}")
+        write_session_trace(f"leak → {block.target}")
+        return
+
+    if block.intent == "link" and block.target:
+        write_link_sig(target=block.target, via="cli")
+        record_heartbeat(f"link → {block.target}")
+        return
+
+    if block.intent == "trace":
+        record_heartbeat("trace session")
+        write_session_trace("trace session")
+        return
+
+    print(f"[λ] Unknown intent: {block.intent}")
 
 def execute_leak_target(target, args=None):
     print(f"[λ] leaking → {target}", f"args={args}" if args else "")
